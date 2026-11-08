@@ -38,7 +38,8 @@ Create `evidence/` and `tools/` only when they receive content.
 | `scope.md` | Verbatim requests with dates, goal, observable acceptance, scope, exclusions, constraints, work limits, unknowns | Task states |
 | `execution.md` | Chosen mode, model and effort per task, commit and push rules, usage gate, handoff prompt | Task results |
 | `decisions.md` | User decisions verbatim, their consequences, and reversible choices the agent made | Rules that do not come from a decision |
-| `tasks/<ID>-<slug>.md` | The full record of one task | Other tasks' details |
+| `tasks/<ID>-<slug>.md` | The full record of one task, including its next action | Other tasks' details |
+| `evidence/` | Logs, outputs, and the usage-gate log cited by tasks | Conclusions, which go in the task record |
 
 ## Keep files light
 

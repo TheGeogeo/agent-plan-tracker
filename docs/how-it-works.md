@@ -42,12 +42,12 @@ Rules: [model-and-effort.md](../skills/planning-and-progress-tracking/references
 
 ## Usage gate
 
-In the orchestrated mode, a usage gate checks the plan's short-window usage (5 hours on Claude Code) and weekly usage between tasks:
+In the orchestrated mode, a usage gate checks the plan's short-window usage (5 hours on Claude Code) and weekly usage once between tasks, never while a subagent runs:
 
-- Before launching a task: above 80% of the short-window limit, the next task does not start, unless it is the last task.
-- Before and after a task: above 90% of the weekly limit, the orchestration stops. A running subagent always finishes first.
+- Before launching a task: above the short-window threshold, the task does not start, unless it is the last task.
+- Before launching a task, and after the last one: above the weekly threshold, the orchestration stops.
 
-When the gate stops, the finished task is verified and committed, and the agent writes a handoff prompt that resumes the orchestration in a new chat.
+The default thresholds are in the [rules of usage-gate.md](../skills/planning-and-progress-tracking/references/usage-gate.md#rules), and each tracking records its own in `execution.md`. When the gate stops, the finished task is already verified and committed, and the agent writes a handoff prompt that resumes the orchestration in a new chat. The gate keeps its own log in the tracking's `evidence/`.
 
 The skill ships no script and gives no link or source for reading usage. When you choose this mode, the model writes its own detection script for its host and provider, such as Claude Code by Anthropic, Codex by OpenAI, or Grok by xAI, from that provider's current documentation. It places the script in the project's host configuration folder (`.claude/` on Claude Code) and verifies it before use. If the source needs credentials, the gate reads them at run time from where the host stores them and sends them only to the provider's own service; it contains no credentials, environment values, or personal paths, and it stays out of version control. If the host's usage cannot be read, the agent agrees on pacing with you instead.
 

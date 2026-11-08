@@ -26,12 +26,10 @@ Back to [TRACKING.md](TRACKING.md).
 
 - Host and provider: <host>, <provider>.
 - Script: `<host configuration folder>/scripts/usage-gate.<extension>`, excluded from version control. Command: `<command>`.
-- Thresholds: short window (<5 hours>) above <80>% before a task, except the last one; weekly above <90>% before and after a task.
+- Thresholds: short window (<5 hours>) above <80>% before each task except the last; weekly above <90>% before each task and after the last.
 - Source: <source>, checked on <YYYY-MM-DD>.
 - Verification at creation: <results of the checks in the skill's usage-gate reference>.
-
-| Time | Check point | Output |
-| --- | --- | --- |
+- Log: `evidence/usage-gate.log`, written by the gate.
 
 ## Handoff prompt
 

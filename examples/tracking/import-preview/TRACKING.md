@@ -17,10 +17,10 @@ This illustrative tracking demonstrates the format. Every task is planned and ev
 
 In execution order. Details are in each task file.
 
-| # | ID | Result | State | Depends on | Next action |
-| --- | --- | --- | --- | --- | --- |
-| 1 | [IMP-01](tasks/IMP-01-preview-contract.md) | Preview contract fits the existing importer | Planned | None | Find the importer entry point |
-| 2 | [IMP-02](tasks/IMP-02-preview-without-apply.md) | Preview produced without applying the import | Planned | IMP-01 | Wait for the IMP-01 contract |
-| 3 | [IMP-03](tasks/IMP-03-failure-cases.md) | Failure cases verified and work closed | Planned | IMP-02 | Wait for IMP-02 acceptance |
+| # | ID | Result | State | Depends on |
+| --- | --- | --- | --- | --- |
+| 1 | [IMP-01](tasks/IMP-01-preview-contract.md) | Preview contract fits the existing importer | Planned | None |
+| 2 | [IMP-02](tasks/IMP-02-preview-without-apply.md) | Preview produced without applying the import | Planned | IMP-01 |
+| 3 | [IMP-03](tasks/IMP-03-failure-cases.md) | Failure cases verified and work closed | Planned | IMP-02 |
 
 States: Planned, Active, Awaiting verification, Done, Blocked, Deferred.

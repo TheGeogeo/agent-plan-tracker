@@ -11,6 +11,4 @@ Back to [TRACKING.md](../TRACKING.md).
   2. Persisted data is unchanged after a preview.
 - Verification: use the focused checks identified in IMP-01; observe the preview and compare the relevant persisted data before and after the operation.
 - Evidence: Not run.
-- Limits: None.
-- Accepted deviations: None.
 - Resume: wait for the IMP-01 contract and verification method before choosing an implementation.

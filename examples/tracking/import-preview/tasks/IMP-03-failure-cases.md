@@ -11,6 +11,4 @@ Back to [TRACKING.md](../TRACKING.md).
   2. Acceptance gaps, explicit decisions, and delivery requirements are recorded.
 - Verification: run the relevant existing checks and user-facing scenarios against the implementation; record the commands, inputs, observed results, and evidence locations under `evidence/imp-03/`.
 - Evidence: Not run.
-- Limits: None.
-- Accepted deviations: None.
 - Resume: start after the IMP-02 acceptance is supported by evidence.

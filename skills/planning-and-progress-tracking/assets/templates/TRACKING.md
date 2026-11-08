@@ -15,8 +15,8 @@ Created on <YYYY-MM-DD> with the `planning-and-progress-tracking` skill. Scope: 
 
 In execution order. Details are in each task file.
 
-| # | ID | Result | State | Depends on | Next action |
-| --- | --- | --- | --- | --- | --- |
-| 1 | [T1](tasks/T1-<slug>.md) | <concrete result> | Planned | None | <action> |
+| # | ID | Result | State | Depends on |
+| --- | --- | --- | --- | --- |
+| 1 | [T1](tasks/T1-<slug>.md) | <concrete result> | Planned | None |
 
 States: Planned, Active, Awaiting verification, Done, Blocked, Deferred.

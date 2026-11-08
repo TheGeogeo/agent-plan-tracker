@@ -1,23 +1,12 @@
 # Task and resume contract
 
-These fields are the minimum information needed to act, verify, and resume. In a tracking folder they live in the files described in [tracking-folder.md](tracking-folder.md). In an existing project convention, map them onto that convention instead.
+These fields are the minimum information needed to act, verify, and resume. In a tracking folder, [tracking-folder.md](tracking-folder.md#what-each-file-owns) says which file holds each record. In an existing project convention, map them onto that convention instead.
 
 Write in the tracking's language: English unless the user asked for another one. Quote user requests and decisions verbatim.
 
-## Where each record lives
-
-| Information | File in the tracking folder |
-| --- | --- |
-| Resume record and task table | `TRACKING.md` |
-| Requests, goal, observable acceptance, scope, exclusions, constraints, work limits, unknowns | `scope.md` |
-| Execution mode, model and effort per task, commit and push rules, usage gate, handoff prompt | `execution.md` |
-| User decisions and their consequences | `decisions.md` |
-| One task record per task | `tasks/<ID>-<slug>.md` |
-| Logs, outputs, and other proof cited by tasks | `evidence/<id>/` |
-
 ## Task record
 
-Start from [the task template](../assets/templates/task.md).
+One file per task, started from [the task template](../assets/templates/task.md):
 
 ```markdown
 # <ID> — Concrete result
@@ -29,14 +18,14 @@ Start from [the task template](../assets/templates/task.md).
 - Acceptance: Observable conditions that establish this task's result.
 - Verification: The applicable command, inspection, or runtime scenario and expected observation.
 - Evidence: Not run, or the observed result with revision/input and a usable reference.
-- Limits: What the evidence does not cover, or none.
-- Accepted deviations: User-approved differences from the planned work, or none.
+- Limits: What the evidence does not cover. Optional: omit when empty.
+- Accepted deviations: User-approved differences from the planned work. Optional: omit when empty.
 - Resume: The next concrete action, or the exact missing condition when blocked.
 ```
 
 Keep the project's existing state names when they carry the same distinctions. Distinguish the task's state from the overall project's or delivery phase's state.
 
-The task file holds the details; the task table in `TRACKING.md` holds one line per task (ID, result, state, dependencies, next action). Update both together so they always agree.
+The task file holds the details and the task's next action. The task table in `TRACKING.md` holds one line per task: ID, result, state, and dependencies. Update the table's state whenever the task's state changes.
 
 ## State rules
 
