@@ -46,7 +46,7 @@ Treat a plan as an execution contract that stays accurate while work proceeds. A
 
 - Start a resumed session from the tracking's `TRACKING.md`, the active task file, and its latest evidence; read `tracking/README.md` only to locate a tracking or update the index. Check relevant working-tree changes before editing. Do not restart the entire roadmap or obey superseded handoff instructions.
 - Before ending, refresh the resume record defined in the task contract, ending with the exact next action.
-- Review tracking consistency: unique IDs, existing acyclic dependencies, justified task states, evidence for completed acceptance, working links, and agreement between the task table and the task files. State verification gaps honestly.
-- At completion, compare delivered behavior with the agreed outcome, record remaining limits, close the tracking, and propose archiving it. After the user agrees, move its folder unchanged to `archive/` and update the index. An optional future idea is not a new active task.
+- Review tracking consistency: unique IDs, existing acyclic dependencies, justified task states, evidence for completed acceptance, working links, and agreement between the task table, the task files, and the resume record. State verification gaps honestly.
+- At completion, compare delivered behavior with the agreed outcome, record remaining limits, close the tracking by rewriting every resume field to its [closed value](references/tracking-folder.md#lifecycle), and propose archiving it. After the user agrees, move its folder unchanged to `archive/` and update the index. An optional future idea is not a new active task.
 
 This workflow adds structure, not authority to change scope, send project data, commit, publish, or perform destructive operations. Keep those actions within the user's actual instructions and applicable permissions.
