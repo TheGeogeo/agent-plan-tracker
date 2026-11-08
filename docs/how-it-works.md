@@ -68,6 +68,6 @@ The skill keeps your project's vocabulary when it carries the same distinctions.
 
 A future test command belongs under **Verification**. An observed test result belongs under **Evidence**, with the revision or input, the command or scenario, the observed result, and an artifact or source location.
 
-If you accept a limitation, the agent records that decision and the checks still unexecuted. If a later failure invalidates earlier acceptance, the agent reopens the affected task while preserving its earlier evidence.
+If you accept a limitation, the agent records that decision and the checks still unexecuted. If a Done task's proof turns out missing, contradicted, or invalidated by a later failure, the agent returns the task to Awaiting verification while preserving its earlier evidence.
 
 Rules: [task-contract.md](../skills/planning-and-progress-tracking/references/task-contract.md).

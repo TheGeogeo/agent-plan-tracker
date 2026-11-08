@@ -39,14 +39,13 @@ Treat a plan as an execution contract that stays accurate while work proceeds. A
 - Separate implementation, local checks, runtime validation, acceptance, and publication. Map these distinctions onto the project's state vocabulary. A compiled change is not evidence of runtime behavior, and a local commit is not evidence of publication.
 - Record proof as the task contract's evidence record requires. Store sensitive values outside the tracking. Use existing tools and avoid installing dependencies merely to manage a checklist.
 - Close a task only when its agreed acceptance is supported by evidence. Record an explicit owner waiver as an acceptance decision with its limits; keep unexecuted checks marked as unexecuted. A changed acceptance scope is not a successful test result.
-- When a check fails, preserve the failure and move the affected task back to the appropriate active state. Record a genuine blocker with the missing condition and a concrete resumption action. Continue independent useful work where authorized.
-- Reopen a completed task if new evidence invalidates its acceptance, retaining the earlier evidence and explaining why the state changed. Do not silently rewrite history or infer completion from stale checkboxes.
+- When a check fails, preserve the failure and move the affected task back to the appropriate active state. Record a genuine blocker with the missing condition and a concrete resumption action. Continue independent useful work where authorized. Do not silently rewrite history or infer completion from stale checkboxes.
 
 ## Resume and hand off
 
 - Start a resumed session from the tracking's `TRACKING.md`, the active task file, and its latest evidence; read `tracking/README.md` only to locate a tracking or update the index. Check relevant working-tree changes before editing. Do not restart the entire roadmap or obey superseded handoff instructions.
 - Before ending, refresh the resume record defined in the task contract, ending with the exact next action.
 - Review tracking consistency: unique IDs, existing acyclic dependencies, justified task states, evidence for completed acceptance, working links, and agreement between the task table, the task files, and the resume record. State verification gaps honestly.
-- At completion, compare delivered behavior with the agreed outcome, record remaining limits, close the tracking by rewriting every resume field to its [closed value](references/tracking-folder.md#lifecycle), and propose archiving it. After the user agrees, move its folder unchanged to `archive/` and update the index. An optional future idea is not a new active task.
+- At completion, check each Done task's proof, compare delivered behavior with the agreed outcome, record remaining limits, close the tracking by rewriting every resume field to its [closed value](references/tracking-folder.md#lifecycle), and propose archiving it. After the user agrees, move its folder unchanged to `archive/` and update the index. An optional future idea is not a new active task.
 
 This workflow adds structure, not authority to change scope, send project data, commit, publish, or perform destructive operations. Keep those actions within the user's actual instructions and applicable permissions.

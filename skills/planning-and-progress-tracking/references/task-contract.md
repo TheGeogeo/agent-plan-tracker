@@ -35,7 +35,7 @@ The task file holds the details and the task's next action. The task table in `T
 - Done requires the task's acceptance evidence, or a clearly recorded owner decision changing that acceptance with stated limits. Dependent tasks must account for any limits relevant to them.
 - Blocked names an actual missing capability, input, permission, or external condition and the action that can resolve it.
 - Deferred keeps the reason and relevant owner decision. It does not satisfy a dependency merely by being deferred.
-- Review and update an affected task after a new failure; retain the superseded evidence and identify the revision it described.
+- A Done task whose proof is missing, contradicted, or invalidated by later evidence goes back to Awaiting verification, in its file and the task table, before you run any check again. Retain the superseded evidence with its revision and the reason.
 
 ## Evidence record
 

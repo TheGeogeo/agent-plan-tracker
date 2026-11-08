@@ -44,7 +44,7 @@ For each task, in order:
 After the last task:
 
 1. **Gate after the last task.** Run the usage gate at the `after-last` point. On STOP or UNAVAILABLE, follow the stop procedure; the final review then starts the next session.
-2. **Final review.** Review the whole change range against the acceptance in `scope.md`: full diff, the relevant full checks, documentation consistency, interactions between tasks, and leftover debugging code.
+2. **Final review.** First read each Done task's proof ([state rules](task-contract.md#state-rules)). Then review the whole change range against the acceptance in `scope.md`: full diff, the relevant full checks, documentation consistency, interactions between tasks, and leftover debugging code.
 3. **Finish the corrections** that the review finds within scope and record them with evidence. Report out-of-scope problems to the user instead of fixing them.
 4. **Final commit** when there are changes.
 5. **Push** only if the user explicitly asked for it; otherwise ask. After a push, record the remote revision as evidence.
