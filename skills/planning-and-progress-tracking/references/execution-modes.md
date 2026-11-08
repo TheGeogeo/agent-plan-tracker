@@ -29,12 +29,12 @@ Every mode follows the [task contract](task-contract.md): start a task only when
 
 The main chat orchestrates. It does not do the tasks' work itself, except small corrections that it states in the task record.
 
-Before the first task, check the working tree. On Claude Code, create and verify the usage gate described in [usage-gate.md](usage-gate.md).
+Before the first task, check the working tree, then write and verify your own usage gate for the host, as described in [usage-gate.md](usage-gate.md).
 
 For each task, in order:
 
 1. **Gate before launch.** Run the usage gate at the `before-step` point, with the final-step flag for the last task. On STOP or UNAVAILABLE, follow the stop procedure below.
-2. **Launch one fresh subagent** with the agent type, model, and effort recorded for the task. Its prompt points to `TRACKING.md` and the task file, restates the acceptance, and forbids commits, pushes, and edits to the tracking files other than the task's evidence.
+2. **Launch one fresh subagent** with the agent type, model, and effort recorded for the task. Before launching it, update the task table and the resume record to show this task as Active and the previous one with its final state: the subagent reads them. Its prompt points to `TRACKING.md` and the task file, restates the acceptance, and forbids commits, pushes, and edits to the tracking files other than the task's evidence.
 3. **Wait for its completion notice.** Do not assume the result.
 4. **Verify personally.** Read the diff, cross-check its claims against the code, read the logs, and check every acceptance point. A subagent report is not evidence.
 5. **Correct or stop.** If the result is insufficient, send corrections to the same subagent or fix a small error yourself and say so. If the acceptance cannot be reached, mark the task Blocked, stop, and ask the user.
@@ -64,4 +64,4 @@ Skip the commits, record in the evidence that the changes are uncommitted, and l
 
 ## Host support
 
-Mode 3 needs a host that can launch subagents with a chosen model. The usage gate applies to Claude Code subscription plans; on other hosts, record that no gate is available and agree on pacing with the user.
+Mode 3 needs a host that can launch subagents with a chosen model. The usage gate needs a host whose plan usage can be read; when it cannot, record that no gate is available and agree on pacing with the user.

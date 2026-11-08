@@ -27,8 +27,9 @@ Example host: Claude Code. Map the tiers onto the models that the host offers.
 
 ## Usage gate
 
-- Script: written into `.claude/scripts/` and verified once the user confirms the orchestrated mode, as described in the skill's usage-gate reference.
-- Thresholds: 5-hour above 80% before a task, except the last one; weekly above 90% before and after a task.
+- Host and provider: Claude Code, Anthropic.
+- Script: written by the orchestrating model into `.claude/scripts/` and verified once the user confirms the orchestrated mode, as described in the skill's usage-gate reference.
+- Thresholds: short window (5 hours) above 80% before a task, except the last one; weekly above 90% before and after a task.
 - Source: to check when the gate is written.
 - Verification at creation: not run.
 

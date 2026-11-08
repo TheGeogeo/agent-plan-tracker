@@ -20,7 +20,7 @@ Read the reference that the current step needs.
 | Write tasks, states, evidence, and resume records | [task-contract.md](references/task-contract.md) |
 | Choose the model and effort of each task | [model-and-effort.md](references/model-and-effort.md) |
 | Propose and run an execution mode | [execution-modes.md](references/execution-modes.md) |
-| Pace orchestrated subagents against Claude Code plan limits | [usage-gate.md](references/usage-gate.md) |
+| Pace orchestrated subagents against the host's plan usage limits | [usage-gate.md](references/usage-gate.md) |
 | Start the files of a new tracking | [README](assets/templates/README.md), [TRACKING](assets/templates/TRACKING.md), [scope](assets/templates/scope.md), [execution](assets/templates/execution.md), [decisions](assets/templates/decisions.md), [task](assets/templates/task.md) |
 
 ## Establish one source of truth
@@ -44,7 +44,7 @@ Read the reference that the current step needs.
 
 - When a tracking has several tasks, propose three modes to the user, recommend one with a reason, and record the choice: execute the tasks in the current chat; execute one task per chat with a handoff between tasks; or let the current chat orchestrate one fresh subagent per task, commit after each verified task when Git is available, then run a thorough final review, finish the corrections, and make the final commit.
 - Push only on the user's explicit request; otherwise ask before pushing. The user's choice of the orchestrated mode authorizes its subagents for that tracking only.
-- In the orchestrated mode on Claude Code, write a fresh usage-gate script into the project's `.claude/` folder, verify it, and run it between tasks. Build it from the current host behavior rather than from a stored copy, and never put credentials, environment values, or personal data in it.
+- In the orchestrated mode, write your own usage-gate script for your host and provider into the project's host configuration folder, such as `.claude/` on Claude Code, verify it, and run it between tasks. The skill provides no link or source for it: build it from the provider's current documentation, and never put credentials, environment values, or personal data in it.
 
 ## Execute and maintain state
 

@@ -26,7 +26,7 @@ Use the skill when a change needs several dependent steps, when a roadmap spans 
 - Keep each piece of work in its own tracking folder, split into small linked files, with an index and an archive.
 - Choose a model and effort for each task, recorded with the reason.
 - Run the tasks in the current chat, one chat per task, or through an orchestrating chat that drives subagents and commits after each verified task.
-- Pause orchestrated work on Claude Code before the plan's 5-hour or weekly limits run out, with the finished work committed and a handoff written.
+- Pause orchestrated work before the plan's short-window (such as 5-hour) or weekly usage limits run out, with the finished work committed and a handoff written.
 - Record which result was actually verified, against which revision or input, and resume from the current state instead of a long conversation.
 
 Small, obvious changes can stay small. The skill scales the planning effort to the work.
@@ -111,7 +111,7 @@ The installable skill is self-contained in its own directory.
 
 ## Design and scope
 
-Agent Plan Tracker is a Markdown workflow with no runtime dependencies and no shipped scripts. It discovers the project's actual tooling and conventions, so it works across languages and project types. The one script it uses, the Claude Code usage gate, is written by the agent for the current host when you choose the orchestrated mode, and it never contains credentials or personal data.
+Agent Plan Tracker is a Markdown workflow with no runtime dependencies and no shipped scripts. It discovers the project's actual tooling and conventions, so it works across languages and project types. The one script it uses, the usage gate, is written by the agent itself for its own host and provider when you choose the orchestrated mode; the skill provides no link or source for it, and the script never contains credentials or personal data.
 
 The workflow emphasizes a single source of truth, proportional planning, evidence-backed state changes, preserved history, and useful handoffs. The agent remains responsible for following your permissions and delivery rules: the skill guides behavior, it does not enforce it at run time.
 

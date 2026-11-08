@@ -1,8 +1,12 @@
 # Usage gate
 
-Claude Code subscription plans limit usage over a rolling 5-hour window and over a week. In the [orchestrated mode](execution-modes.md#mode-3-orchestrated-subagents), a usage gate keeps the orchestrator from launching work that the remaining usage may not cover, and leaves the finished work committed with a handoff.
+Coding-agent subscription plans limit usage over time windows, for example a rolling 5-hour window and a weekly window. In the [orchestrated mode](execution-modes.md#mode-3-orchestrated-subagents), a usage gate keeps the orchestrator from launching work that the remaining usage may not cover, and leaves the finished work committed with a handoff.
 
-This reference is a specification. The skill ships no script: when the user chooses the orchestrated mode on Claude Code, write the gate fresh for the current host, verify it, and only then rely on it. Rewrite it if a later run shows that its source has changed.
+## No provided source
+
+This reference is a specification only. It deliberately gives no link, endpoint, file location, or command for reading usage: those depend on the host and its provider, and they change over time.
+
+The model running the orchestration writes its own detection script for its own host and provider, for example Claude Code by Anthropic, Codex by OpenAI, or Grok by xAI. It builds the script from that provider's current documentation and tools when the user chooses the orchestrated mode, verifies it, and only then relies on it. Rewrite the script when the host or its usage source changes. Never reuse a script written for another host.
 
 ## Rules
 
@@ -10,50 +14,53 @@ These defaults apply unless the user sets other thresholds; record any change in
 
 | Check point | Rule | Exception |
 | --- | --- | --- |
-| Before launching a task | 5-hour usage above 80%: STOP | Not applied when the task to launch is the last one. That task, the final review, the final commit, and an authorized push proceed. |
+| Before launching a task | Short-window usage above 80%: STOP | Not applied when the task to launch is the last one. That task, the final review, the final commit, and an authorized push proceed. |
 | Before launching a task | Weekly usage above 90%: STOP | None |
 | After a task ends, once its subagent has finished | Weekly usage above 90%: STOP | None, including after the last task |
 
-- Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits.
+- The short window is the host's shortest rolling limit, such as 5 hours. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
 - STOP never interrupts a running subagent. Follow the [stop procedure](execution-modes.md#stop-procedure).
-- If usage cannot be read, retry once after a short wait. If it is still unreadable, treat it as STOP and tell the user why.
+- If usage cannot be read, retry once after a short wait, or after the delay the source asks for when it reports a rate limit. If it is still unreadable, treat it as STOP and tell the user why.
+- Usage sources can rate-limit frequent calls. Call the gate only at its check points, and space the verification calls at creation.
 
-## Location
+## Find the usage source
 
-- Write the gate to `.claude/scripts/usage-gate.<extension>` in the project, and record its path and command in `execution.md`.
-- Keep it out of version control: add its path to `.git/info/exclude` unless the user asks to version it, so that task commits cannot pick it up.
-- Use a runtime that already exists in the environment, such as the Python standard library, PowerShell, or a POSIX shell with common tools. Install nothing.
+Before writing the gate:
 
-## Source of usage data
-
-Before writing the gate, check the current Claude Code documentation and choose the source:
-
-1. **A documented source that the gate can read from this host**, if one exists. At the time of writing, the status line input includes `rate_limits.five_hour.used_percentage` and `rate_limits.seven_day.used_percentage`, but only status line commands receive it, not hooks, and IDE integrations may not run a status line.
-2. **Otherwise, the usage endpoint behind Claude Code's `/usage` command.** At the time of writing it is `GET https://api.anthropic.com/api/oauth/usage`, called with `Authorization: Bearer <OAuth access token>` and `anthropic-beta: oauth-2025-04-20`. It is undocumented: confirm the URL, the headers, and the response fields with one call before relying on them. Two response shapes have been seen: a `limits` list, where the 5-hour entry has the `session` kind and weekly entries belong to the `weekly` group with a `percent` value; and top-level `five_hour` and `seven_day*` objects with a `utilization` value and `resets_at`.
+1. Read the host provider's current official documentation for a way that a local process can read plan usage and reset times.
+2. Prefer a documented source that works in the session's actual environment: terminal, IDE extension, desktop app, or cloud.
+3. If only an undocumented source exists, such as the one behind the host's own usage command, tell the user and get their agreement first. Confirm its current request and response shape with one call before relying on it.
+4. If no source can be read, do not write a gate: record "Not available: <reason>" in `execution.md` and agree on pacing with the user.
 
 ## Credentials and privacy
 
-- Read the OAuth access token at run time from where Claude Code stores it: the `.credentials.json` file in the Claude configuration directory (`CLAUDE_CONFIG_DIR` when set, otherwise `.claude` in the user's home directory), or the system keychain on macOS. Resolve the home directory at run time.
-- Send the token only to the usage endpoint over HTTPS. Never print, log, store, or commit it, and keep it out of error messages.
+- If the source needs credentials, read them at run time from where the host already stores them, so that no secret is typed into the chat or the script. Resolve user-specific locations at run time.
+- Send credentials only to the provider's own service over HTTPS. Never print, log, store, or commit them, and keep them out of error messages.
 - The gate hard-codes no keys, tokens, account identifiers, environment values, email addresses, or user-specific paths; it reads what it needs at run time. Use a generic User-Agent.
+
+## Location
+
+- Write the gate to a `scripts/` folder inside the host's project configuration folder, such as `.claude/scripts/` on Claude Code, and record its path and command in `execution.md`.
+- Keep it out of version control: add its path to `.git/info/exclude` unless the user asks to version it, so that task commits cannot pick it up.
+- Use a runtime that already exists in the environment, such as the Python standard library, PowerShell, or a POSIX shell with common tools. Install nothing.
 
 ## Interface
 
 - `--point before-step|after-step`: required check point.
 - `--final-step`: with `before-step`, the task to launch is the last one.
-- `--five-hour-stop <percent>`: default 80. `--weekly-stop <percent>`: default 90.
-- Output, one line: `five_hour=<percent> weekly=<percent> resets=<5-hour reset>,<weekly reset> verdict=<CONTINUE | STOP: reason | UNAVAILABLE: reason>`.
+- `--short-stop <percent>`: default 80. `--weekly-stop <percent>`: default 90.
+- Output, one line: `short=<percent> weekly=<percent> resets=<short reset>,<weekly reset> verdict=<CONTINUE | STOP: reason | UNAVAILABLE: reason>`. An UNAVAILABLE reason includes the wait the source requested, if any.
 - Exit code: 0 to continue, 10 to stop, 2 when usage is unavailable.
 
 ## Verify at creation
 
-Record the results in `execution.md`, without the token:
+Record the results in `execution.md`, without any secret:
 
-1. With the default thresholds, both percentages and both reset times are read. When the user can check, they match what `/usage` shows.
-2. `--point before-step --five-hour-stop 0` returns STOP with exit code 10. Adding `--final-step` returns CONTINUE while weekly usage is below its threshold.
+1. With the default thresholds, both percentages and both reset times are read. When the user can check, they match what the host's own usage display shows.
+2. `--point before-step --short-stop 0` returns STOP with exit code 10. Adding `--final-step` returns CONTINUE while weekly usage is below its threshold.
 3. `--point after-step --weekly-stop 0` returns STOP with exit code 10.
-4. With credentials unavailable, for example `CLAUDE_CONFIG_DIR` pointing to an empty temporary directory on a host that stores credentials in a file, the gate returns UNAVAILABLE with exit code 2, and its output contains no token.
-5. The gate file contains no token, user path, or other personal data.
+4. With credentials or the source unavailable, for example the host's configuration directory pointed at an empty temporary directory, the gate returns UNAVAILABLE with exit code 2, and its output contains no secret.
+5. The gate file contains no secret, user path, or other personal data.
 
 ## Use during orchestration
 
