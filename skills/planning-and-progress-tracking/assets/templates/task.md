@@ -10,4 +10,4 @@ Back to [TRACKING.md](../TRACKING.md).
   1. <observable condition>
 - Verification: <commands, inspections, or scenarios, and the expected observations>.
 - Evidence: Not run.
-- Resume: <next concrete action>.
+- Resume: <next step of this task's work>.

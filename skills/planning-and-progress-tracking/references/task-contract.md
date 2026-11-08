@@ -20,7 +20,7 @@ One file per task, started from [the task template](../assets/templates/task.md)
 - Evidence: Not run, or the observed result with revision/input and a usable reference.
 - Limits: What the evidence does not cover. Optional: omit when empty.
 - Accepted deviations: User-approved differences from the planned work. Optional: omit when empty.
-- Resume: The next concrete action, or the exact missing condition when blocked.
+- Resume: The next step of this task's own work, or the exact missing condition when blocked. Orchestration steps, such as the usage gate, a subagent launch, or a commit, go in the resume record of `TRACKING.md`.
 ```
 
 Keep the project's existing state names when they carry the same distinctions. Distinguish the task's state from the overall project's or delivery phase's state.

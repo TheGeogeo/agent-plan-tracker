@@ -34,7 +34,7 @@ Before the first task, check the working tree, then write and verify your own us
 For each task, in order:
 
 1. **Gate before launch.** Run the usage gate at the `before-task` point, with the last-task flag for the last task. On STOP or UNAVAILABLE, follow the stop procedure below.
-2. **Launch one fresh subagent** with the agent type, model, and effort recorded for the task. Its prompt points to the task file only, restates the acceptance, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
+2. **Launch one fresh subagent** with the agent type, model, and effort recorded for the task. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
 3. **Wait for its completion notice.** Do not assume the result.
 4. **Verify personally.** Read the diff, cross-check its claims against the code, read the logs, and check every acceptance point. A subagent report is not evidence.
 5. **Correct or stop.** If the result is insufficient, send corrections to the same subagent or fix a small error yourself and say so. If the acceptance cannot be reached, mark the task Blocked, stop, and ask the user.
