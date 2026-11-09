@@ -1,124 +1,89 @@
-# Agent Plan Tracker
+# Agent Skills
 
-**Structured trackings, evidence-based progress, and clear handoffs for coding agents.**
+**Custom skills for coding agents such as Claude Code and Codex.**
 
-Agent Plan Tracker is an instruction-based skill in the Agent Skills format, for coding agents such as Claude Code and Codex. It turns a broad request or an informal checklist into a tracking folder of verifiable tasks, keeps that tracking accurate while work proceeds, and leaves a reliable starting point for the next chat or agent.
-
-The skill works with the planning documents already in your project. When there are none, it creates a `tracking/` folder with an index, an archive, and one folder per piece of work.
+This repository collects instruction-based skills in the Agent Skills format. Each skill lives in its own directory under [`skills/`](skills/), carries its own license, and installs on its own: pick only the skills you need.
 
 ## Contents
 
-- [What it helps you do](#what-it-helps-you-do)
-- [What you get](#what-you-get)
-- [How it works](#how-it-works)
-- [Quick start](#quick-start)
-- [Documentation](#documentation)
+- [Skills](#skills)
+- [Installation](#installation)
+- [Using a skill](#using-a-skill)
 - [Repository layout](#repository-layout)
-- [Design and scope](#design-and-scope)
+- [Design principles](#design-principles)
 - [Contributing](#contributing)
 - [License](#license)
 
-## What it helps you do
+## Skills
 
-Use the skill when a change needs several dependent steps, when a roadmap spans multiple sessions, or when an existing progress document is too loose to guide implementation. It helps you:
+| Skill | What it does | Documentation |
+| --- | --- | --- |
+| [`planning-and-progress-tracking`](skills/planning-and-progress-tracking/SKILL.md) | Turns substantial multi-step work into a tracking folder of verifiable tasks, keeps it accurate while work proceeds, and leaves a reliable handoff for the next chat or agent. | [Overview](docs/planning-and-progress-tracking/README.md) · [Installation](docs/planning-and-progress-tracking/installation.md) · [Usage](docs/planning-and-progress-tracking/usage.md) · [How it works](docs/planning-and-progress-tracking/how-it-works.md) |
 
-- Break a feature or refactor into tasks with observable acceptance, ordered by their dependencies.
-- Keep each piece of work in its own tracking folder, split into small linked files, with an index and an archive.
-- Choose a model tier (small fast, balanced, or most capable) and an effort for each task, recorded with the reason, so a tracking stays valid when model names change.
-- Run the tasks in the current chat, one chat per task, or through an orchestrating chat that drives subagents and commits after each verified task.
-- Pause orchestrated work before the plan's short-window or weekly usage limits run out, with the finished work committed and a handoff written.
-- Record which result was actually verified, against which revision or input, and resume from the current state instead of a long conversation.
+## Installation
 
-Small, obvious changes can stay small. The skill scales the planning effort to the work.
-
-## What you get
-
-```text
-tracking/
-  README.md               How trackings work, and the active and archived index
-  archive/<name>/         Closed trackings, moved unchanged
-  <name>/
-    TRACKING.md           Start here: resume record and task table
-    scope.md              Requests, goal, acceptance, scope, work limits
-    execution.md          Mode, model tier and effort per task, commits, usage gate, handoff
-    decisions.md          User decisions and their consequences
-    tasks/<ID>-<slug>.md  One file per task
-    evidence/<id>/        Proof cited by the tasks
-```
-
-Trackings are written in English unless you ask for another language. If your project already uses a central status file, task sheets, or a designated issue tracker, the agent follows that structure instead. The [templates](skills/planning-and-progress-tracking/assets/templates/) show the starting content of each file.
-
-## How it works
-
-1. **Find the current state:** existing plans, the active task, recent evidence, and your latest decisions.
-2. **Define the outcome:** observable acceptance, scope, exclusions, and the constraints that matter.
-3. **Build the task graph:** stable IDs, one file per task, ordered by actual dependencies, with a model tier and effort chosen per task.
-4. **Choose the execution mode:** you pick how the tasks run; pushing always needs your explicit request.
-5. **Work and verify:** each task closes only when evidence supports its acceptance.
-6. **Hand off and close:** the resume record names the exact next action; a finished tracking moves to `archive/` once you agree.
-
-[How it works](docs/how-it-works.md) covers each step, the execution modes, and the usage gate.
-
-## Quick start
-
-Clone the repository, review the skill, and copy the complete skill directory. For a personal Claude Code installation on macOS or Linux:
+Clone the repository, review the skill you want, and copy its complete directory into your agent's skills folder. A skill directory contains `SKILL.md` and its `LICENSE`, plus any `references/` or `assets/` it uses; keep them together.
 
 ```sh
-git clone https://github.com/TheGeogeo/agent-plan-tracker.git
+git clone https://github.com/TheGeogeo/agent-skills.git
+```
+
+| Agent | Scope | Destination |
+| --- | --- | --- |
+| Claude Code | All your local projects | `~/.claude/skills/<skill-name>/` |
+| Claude Code | One repository | `<your-project>/.claude/skills/<skill-name>/` |
+| Codex | All your local projects | `~/.agents/skills/<skill-name>/` |
+| Codex | One repository | `<your-project>/.agents/skills/<skill-name>/` |
+| Another agent that supports Agent Skills | User or repository | The skills folder documented by that agent |
+
+For example, a personal Claude Code installation of one skill on macOS or Linux:
+
+```sh
 mkdir -p ~/.claude/skills
-cp -R agent-plan-tracker/skills/planning-and-progress-tracking ~/.claude/skills/
+cp -R agent-skills/skills/planning-and-progress-tracking ~/.claude/skills/
 ```
 
-Then ask for a tracking:
+Here, `~` means your user home directory. On Windows, use the equivalent directory under your user profile. The destination should contain `SKILL.md` directly.
 
-```text
-Use planning-and-progress-tracking to plan the import-preview feature.
-Inspect the existing architecture and test commands first.
-Keep this request limited to planning.
-```
+To update an installed skill, compare the `version` in its `SKILL.md` frontmatter with this repository's, review the new version, and replace the whole directory so that removed files do not linger. If you use several agents, update every installed copy.
 
-[Installation](docs/installation.md) covers Codex, per-project scopes, Windows, and making the workflow a standing rule. [Usage](docs/usage.md) has prompts for every stage.
+Each skill's installation page covers anything specific to that skill, such as making it a standing project rule.
 
-## Documentation
+## Using a skill
 
-| Page | Contents |
-| --- | --- |
-| [docs/installation.md](docs/installation.md) | Install locations, loading the skill, standing project rule |
-| [docs/usage.md](docs/usage.md) | Prompts to plan, strengthen a tracker, execute in each mode, resume, and archive |
-| [docs/how-it-works.md](docs/how-it-works.md) | Tracking folder, execution modes, model and effort, usage gate, task states and evidence |
-
-The agent itself reads [SKILL.md](skills/planning-and-progress-tracking/SKILL.md), which links to one reference per topic.
+Start a new session if a skill does not appear after installation. Invoke it by name, with `/<skill-name>` in Claude Code or `$<skill-name>` in Codex, or let the agent select it when your request matches the skill's description. Each skill's usage page has example prompts.
 
 ## Repository layout
 
 ```text
-agent-plan-tracker/
-  README.md
+agent-skills/
+  README.md                 This catalog
   LICENSE
   CONTRIBUTING.md
-  docs/                     Documentation for readers of this repository
+  docs/
+    <skill-name>/           Documentation for readers, one folder per skill
   skills/
-    planning-and-progress-tracking/
+    <skill-name>/           One installable skill
       SKILL.md              Agent entry point
       LICENSE
-      references/           One reference per topic
-      assets/templates/     Starting files for a tracking
+      references/           Detailed guidance, read when needed
+      assets/               Templates and other starting files
 ```
 
-The installable skill is self-contained in its own directory.
+## Design principles
 
-## Design and scope
-
-Agent Plan Tracker is a Markdown workflow with no runtime dependencies and no shipped scripts. It discovers the project's actual tooling and conventions, so it works across languages and project types. The one script it uses, the usage gate, is written by the agent itself for its own host and provider when you choose the orchestrated mode; the skill provides no link or source for it, and the script never contains credentials or personal data.
-
-The workflow emphasizes a single source of truth, proportional planning, evidence-backed state changes, preserved history, and useful handoffs. The agent remains responsible for following your permissions and delivery rules: the skill guides behavior, it does not enforce it at run time.
+- **Self-contained:** each skill directory installs on its own and carries its own license.
+- **Portable:** skills work across projects and agents that support the format, and name no model or model provider.
+- **Proportional:** a skill scales its process to the work, so small, obvious changes stay small.
+- **Lightweight:** skills are Markdown instructions; any dependency or script needs a concrete benefit that justifies its maintenance cost.
+- **Guidance, not enforcement:** a skill shapes how the agent works; your agent's permissions and your delivery rules still apply.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Focus changes on better planning decisions, clearer task contracts, and more reliable resumption. Include the concrete scenario a proposed change improves.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Describe the concrete scenario a proposed change improves. A new skill follows the checklist in [Add a skill](CONTRIBUTING.md#add-a-skill).
 
 ## License
 
-Released under the [MIT License](LICENSE).
+Released under the [MIT License](LICENSE). Each skill directory includes a copy of the license.
 
-Agent Plan Tracker is a custom skill created and maintained by [TheGeogeo](https://github.com/TheGeogeo).
+Created and maintained by [TheGeogeo](https://github.com/TheGeogeo).

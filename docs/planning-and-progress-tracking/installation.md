@@ -1,14 +1,14 @@
 # Installation
 
-The installable skill is named **`planning-and-progress-tracking`**. The repository is named **`agent-plan-tracker`**. Back to the [README](../README.md).
+The installable skill is named **`planning-and-progress-tracking`**. It is part of the **`agent-skills`** repository. Back to the [overview](README.md).
 
 ## 1. Get the files
 
 ```sh
-git clone https://github.com/TheGeogeo/agent-plan-tracker.git
+git clone https://github.com/TheGeogeo/agent-skills.git
 ```
 
-Review [SKILL.md](../skills/planning-and-progress-tracking/SKILL.md), its `references/`, and its `assets/templates/`, then copy the complete `skills/planning-and-progress-tracking/` directory to one of the locations below. Keep `references/`, `assets/`, and `LICENSE` together with `SKILL.md`.
+Review [SKILL.md](../../skills/planning-and-progress-tracking/SKILL.md), its `references/`, and its `assets/templates/`, then copy the complete `skills/planning-and-progress-tracking/` directory to one of the locations below. Keep `references/`, `assets/`, and `LICENSE` together with `SKILL.md`.
 
 ## 2. Choose the scope
 
@@ -26,7 +26,7 @@ A personal Claude Code installation on macOS or Linux:
 
 ```sh
 mkdir -p ~/.claude/skills
-cp -R agent-plan-tracker/skills/planning-and-progress-tracking ~/.claude/skills/
+cp -R agent-skills/skills/planning-and-progress-tracking ~/.claude/skills/
 ```
 
 For a personal Codex installation, use `~/.agents/skills/` as the destination instead.

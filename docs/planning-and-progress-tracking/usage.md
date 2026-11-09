@@ -1,6 +1,6 @@
 # Usage
 
-Prompts for each stage of a tracking. Back to the [README](../README.md).
+Prompts for each stage of a tracking. Back to the [overview](README.md).
 
 The prompts establish the task's scope. A request for a plan produces the tracking and a proposed execution mode; the agent writes that mode's handoff once you choose it. A request to execute authorizes implementation within the boundaries you give.
 

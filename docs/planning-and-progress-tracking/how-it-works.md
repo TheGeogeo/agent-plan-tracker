@@ -1,6 +1,6 @@
 # How it works
 
-An overview for readers of this repository. The exact rules the agent follows are in the skill's references, linked from each section. Back to the [README](../README.md).
+An overview for readers of this repository. The exact rules the agent follows are in the skill's references, linked from each section. Back to the [overview](README.md).
 
 ## The workflow
 
@@ -20,7 +20,7 @@ A tracking is split into small files that each own one topic: `TRACKING.md` for 
 
 The folder follows your project's rules on versioning plans; when plans must stay out of Git, the agent excludes it locally through `.git/info/exclude`.
 
-Rules: [tracking-folder.md](../skills/planning-and-progress-tracking/references/tracking-folder.md). Starting files: [assets/templates/](../skills/planning-and-progress-tracking/assets/templates/).
+Rules: [tracking-folder.md](../../skills/planning-and-progress-tracking/references/tracking-folder.md). Starting files: [assets/templates/](../../skills/planning-and-progress-tracking/assets/templates/).
 
 ## Execution modes
 
@@ -32,21 +32,21 @@ Rules: [tracking-folder.md](../skills/planning-and-progress-tracking/references/
 
 Pushing happens only on your explicit request; otherwise the agent asks.
 
-Rules: [execution-modes.md](../skills/planning-and-progress-tracking/references/execution-modes.md).
+Rules: [execution-modes.md](../../skills/planning-and-progress-tracking/references/execution-modes.md).
 
 ## Model and effort
 
 While planning, the agent analyzes each task for the least costly model tier and effort that can reliably meet its acceptance, weighing reasoning depth, the cost of a wrong result, the breadth of context, the verification load, and how mechanical the work is. The tiers are the small fast model, the balanced model, and the most capable model; the tracking records the tier, and the agent maps it onto the host's current model when the task starts, so the tracking stays valid when new models are released. The choice and its reason are recorded in `execution.md` and passed to each subagent.
 
-Rules: [model-and-effort.md](../skills/planning-and-progress-tracking/references/model-and-effort.md).
+Rules: [model-and-effort.md](../../skills/planning-and-progress-tracking/references/model-and-effort.md).
 
 ## Usage gate
 
-In the orchestrated mode, a usage gate checks the plan's short-window and weekly usage after each task except the last, once the task is verified and committed, never while a subagent runs. When usage reaches a threshold, the orchestration stops before the next task. After the last task it never stops, so the tracking finishes. The default thresholds and their exceptions are in the [rules of usage-gate.md](../skills/planning-and-progress-tracking/references/usage-gate.md#rules), and each tracking records its own in `execution.md`. When the gate stops, the finished task is already verified and committed, and the agent writes a handoff prompt that resumes the orchestration in a new chat. The gate keeps its own log in the tracking's `evidence/`.
+In the orchestrated mode, a usage gate checks the plan's short-window and weekly usage after each task except the last, once the task is verified and committed, never while a subagent runs. When usage reaches a threshold, the orchestration stops before the next task. After the last task it never stops, so the tracking finishes. The default thresholds and their exceptions are in the [rules of usage-gate.md](../../skills/planning-and-progress-tracking/references/usage-gate.md#rules), and each tracking records its own in `execution.md`. When the gate stops, the finished task is already verified and committed, and the agent writes a handoff prompt that resumes the orchestration in a new chat. The gate keeps its own log in the tracking's `evidence/`.
 
 The skill ships no script and gives no link or source for reading usage. When you choose this mode, the model writes its own detection script for the host and provider it runs on, from that provider's current documentation. It places the script in the folder where the host keeps its project configuration and verifies it before use. If the source needs credentials, the gate reads them at run time from where the host stores them and sends them only to the provider's own service; it contains no credentials, environment values, or personal paths, and it stays out of version control. If the host's usage cannot be read, the agent agrees on pacing with you instead.
 
-Rules: [usage-gate.md](../skills/planning-and-progress-tracking/references/usage-gate.md).
+Rules: [usage-gate.md](../../skills/planning-and-progress-tracking/references/usage-gate.md).
 
 ## Task states and evidence
 
@@ -65,4 +65,4 @@ A future test command belongs under **Verification**. An observed test result be
 
 If you accept a limitation, the agent records that decision and the checks still unexecuted. If a Done task's proof turns out missing, contradicted, or invalidated by a later failure, the agent returns the task to Awaiting verification while preserving its earlier evidence.
 
-Rules: [task-contract.md](../skills/planning-and-progress-tracking/references/task-contract.md).
+Rules: [task-contract.md](../../skills/planning-and-progress-tracking/references/task-contract.md).
