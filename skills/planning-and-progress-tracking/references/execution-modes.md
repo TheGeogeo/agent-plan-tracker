@@ -51,10 +51,13 @@ After the last task, without a gate, so that the tracking finishes:
 
 ### Stop procedure
 
-Used when the usage gate returns STOP, or UNAVAILABLE after one retry. The gate runs after a task is recorded and committed, so no work is lost:
+Used when the usage gate returns STOP, or UNAVAILABLE after one retry. The gate runs after a task is recorded and committed, so no work is lost. The session ends here, even when the reset is near:
 
-- Do not launch another task.
-- Update the resume record with the gate output (percentages and reset times) and the next step, write the exact prompt that resumes the orchestration in a new chat into `execution.md`, including the orchestrating chat's model tier and effort to select with the matching host model, and give it to the user.
+1. Do not launch another task.
+2. Update the resume record with the gate output (percentages and reset times) and the next step.
+3. Write into `execution.md` the exact prompt that resumes the orchestration in a new chat, including the orchestrating chat's model tier and effort to select with the matching host model. It gives the reset times as facts and repeats that a later STOP follows this procedure; it never tells the next chat to wait for a reset.
+4. Commit the tracking changes when Git is available and the tracking is versioned.
+5. Give the prompt to the user and end the session. Never wait for the reset inside the session: no sleep, scheduled wake-up, timer, or repeated gate run. The user resumes by pasting the prompt in a new chat.
 
 ## Without Git
 

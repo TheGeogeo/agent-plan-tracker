@@ -64,7 +64,7 @@ Read the resume record, the active task, and its latest evidence.
 Check what changed since the handoff, then continue the next authorized action.
 ```
 
-When the usage gate stopped an orchestration, paste the resume prompt that the agent wrote in `execution.md`.
+When the usage gate stopped an orchestration, paste the resume prompt that the agent wrote in `execution.md` in a new chat, after the reset time it reports.
 
 ## Close and archive
 

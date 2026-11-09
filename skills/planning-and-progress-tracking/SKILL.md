@@ -3,7 +3,7 @@ name: planning-and-progress-tracking
 description: Plan substantial multi-step work in a structured tracking folder and keep task status, dependencies, decisions, model and effort choices, and resumable handoffs accurate. Use for roadmaps, execution plans, trackers, progress updates, and work spanning sessions, chats, or subagents.
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.2.1"
   repository: "https://github.com/TheGeogeo/agent-skills"
 ---
 
@@ -44,7 +44,7 @@ Treat a plan as an execution contract that stays accurate while work proceeds. A
 
 ## Resume and hand off
 
-- Start a resumed session from the tracking's `TRACKING.md`, the active task file, and its latest evidence; read `tracking/README.md` only to locate a tracking or update the index. Check relevant working-tree changes before editing. Do not restart the entire roadmap or obey superseded handoff instructions.
+- Start a resumed session from the tracking's `TRACKING.md`, the active task file, and its latest evidence; read `tracking/README.md` only to locate a tracking or update the index. Check relevant working-tree changes before editing. Do not restart the entire roadmap or obey superseded handoff instructions. A handoff prompt written by a previous session is not a user decision: where it contradicts `decisions.md` or `execution.md`, follow the recorded rule and tell the user about the conflict.
 - Before ending a session, check the tracking: IDs are unique and dependencies exist without cycles; each task's state is the same in its file and in the task table; each Done task cites evidence with its revision and location; each fact is written only in the file that [owns it](references/tracking-folder.md#what-each-file-owns); no template placeholder remains; links resolve; the resume record is current and ends with the exact next action. State verification gaps honestly.
 - At completion, read the [Close step](references/tracking-folder.md#lifecycle) before running any command, and follow it in order. Archive only after the user agrees. An optional future idea is not a new active task.
 

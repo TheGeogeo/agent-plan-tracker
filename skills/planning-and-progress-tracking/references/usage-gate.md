@@ -21,7 +21,7 @@ The gate runs once after each task, when the orchestrator has verified the task,
 
 - After the last task, the gate does not run: the final review, its corrections, the final commit, and an authorized push proceed so that the tracking finishes.
 - The short window is the host's shortest rolling limit. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
-- The gate runs only between tasks, so it never interrupts a subagent. On STOP, follow the [stop procedure](execution-modes.md#stop-procedure).
+- The gate runs only between tasks, so it never interrupts a subagent. On STOP, follow the [stop procedure](execution-modes.md#stop-procedure), which ends the session with a handoff instead of waiting for the reset.
 - If usage cannot be read, retry once after a short wait, or after the delay the source asks for when it reports a rate limit. If it is still unreadable, treat it as STOP and tell the user why.
 - Usage sources can rate-limit frequent calls: call the gate only after a task, and space the verification calls at creation.
 

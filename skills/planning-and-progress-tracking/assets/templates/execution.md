@@ -33,4 +33,4 @@ Back to [TRACKING.md](TRACKING.md).
 
 ## Handoff prompt
 
-<The exact prompt for the next chat: tracking path, task ID, model tier and effort to select with the matching host model, files to read first, permissions, and the stop condition.>
+<The exact prompt for the next chat: tracking path, task ID, model tier and effort to select with the matching host model, files to read first, permissions, and the stop condition. It repeats the rules recorded here and adds none.>
