@@ -34,7 +34,7 @@ Each file owns one topic and links to the others instead of copying them.
    - one task per chat, with a handoff prompt between tasks;
    - an orchestrating chat that runs one subagent per task, commits after each verified task when Git is available, then performs a final review, the last corrections, and the final commit. Pushing needs the user's explicit request.
 6. **Execute and verify.** A task starts when its dependencies are met. It becomes Done only when evidence, stored in `evidence/` or cited by reference, supports its acceptance.
-7. **Pace usage.** In the orchestrated mode, a usage gate that the agent writes for its own host runs between tasks. When usage passes the thresholds recorded in `execution.md`, the orchestration stops before the next task, with the finished work committed and a handoff written.
+7. **Pace usage.** In the orchestrated mode, a usage gate that the agent writes for its own host runs after each task except the last. When usage reaches the thresholds recorded in `execution.md`, the orchestration stops before the next task, with the finished work committed and a handoff written.
 8. **Hand off.** Before a chat ends, the resume record at the top of `TRACKING.md` states the active task, the last verified result, what to preserve, and the exact next action.
 9. **Close and archive.** When every task is Done, or Deferred by a recorded decision, the result is compared with the acceptance. After the user agrees, the folder moves unchanged to `archive/<name>/` and its entry moves to Archived.
 

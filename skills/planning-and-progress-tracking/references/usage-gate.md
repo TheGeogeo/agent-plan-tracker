@@ -12,17 +12,18 @@ The model running the orchestration writes its own detection script for the host
 
 These defaults apply unless the user sets other thresholds; record any change in `decisions.md`.
 
-| Check point | Rule | Exception |
-| --- | --- | --- |
-| Before launching each task | Short-window usage above 80%: STOP | Not applied before the last task. That task, the final review, the final commit, and an authorized push proceed. |
-| Before launching each task | Weekly usage above 90%: STOP | None |
-| After the last task, before the final review | Weekly usage above 90%: STOP | None |
+The gate runs once after each task, when the orchestrator has verified the task, finished its corrections, and committed it where Git is available:
 
-- The check before a task runs once the previous task is verified and committed, so it also covers the end of that task. One check per boundary is enough.
+| Usage | Default threshold | After a task that is not the last | After the last task |
+| --- | --- | --- | --- |
+| Short window | 80% or more | STOP | No check |
+| Weekly | 90% or more | STOP | No check |
+
+- After the last task, the gate does not run: the final review, its corrections, the final commit, and an authorized push proceed so that the tracking finishes.
 - The short window is the host's shortest rolling limit. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
 - The gate runs only between tasks, so it never interrupts a subagent. On STOP, follow the [stop procedure](execution-modes.md#stop-procedure).
 - If usage cannot be read, retry once after a short wait, or after the delay the source asks for when it reports a rate limit. If it is still unreadable, treat it as STOP and tell the user why.
-- Usage sources can rate-limit frequent calls: call the gate only at its check points, and space the verification calls at creation.
+- Usage sources can rate-limit frequent calls: call the gate only after a task, and space the verification calls at creation.
 
 ## Find the usage source
 
@@ -47,25 +48,22 @@ Before writing the gate:
 
 ## Interface
 
-- `--point before-task|after-last`: required check point. `after-last` applies the weekly rule only.
-- `--last-task`: with `before-task`, the task to launch is the last one, so the short-window rule is skipped.
-- `--short-stop <percent>`: default 80. `--weekly-stop <percent>`: default 90.
+- `--short-stop <percent>`: default 80. `--weekly-stop <percent>`: default 90. Usage equal to or above a threshold stops.
 - `--log <file>`: also append the output line to this file.
-- Output, one line: `<UTC time> <point> short=<percent> weekly=<percent> resets=<short reset>,<weekly reset> verdict=<CONTINUE | STOP: reasons | UNAVAILABLE: reason>`. An UNAVAILABLE reason includes the wait the source requested, if any.
+- Output, one line: `<UTC time> short=<percent> weekly=<percent> resets=<short reset>,<weekly reset> verdict=<CONTINUE | STOP: reasons | UNAVAILABLE: reason>`. An UNAVAILABLE reason includes the wait the source requested, if any.
 - Exit code: 0 to continue, 10 to stop, 2 when usage is unavailable.
 
 ## Verify at creation
 
 Space the calls that read usage. Record the results in `execution.md`, without any secret:
 
-1. `--point before-task` with the default thresholds reads both percentages and both reset times. When the user can check, they match what the host's own usage display shows.
-2. `--point before-task --short-stop 0 --weekly-stop 0` returns STOP with both reasons and exit code 10.
-3. The same command with `--last-task` returns STOP with the weekly reason only.
+1. With the default thresholds, the gate reads both percentages and both reset times. When the user can check, they match what the host's own usage display shows.
+2. `--short-stop 0 --weekly-stop 0` returns STOP with both reasons and exit code 10.
+3. `--short-stop 101 --weekly-stop 0` returns STOP with the weekly reason only, and `--short-stop 0 --weekly-stop 101` with the short-window reason only.
 4. With credentials or the source unavailable, for example the host's configuration directory pointed at an empty temporary directory, the gate returns UNAVAILABLE with exit code 2, and its output contains no secret.
 5. The gate file contains no secret, user path, or other personal data.
 
 ## Use during orchestration
 
-- Before each task launch, run it at `before-task`, adding `--last-task` for the last task.
-- After the last task is verified and committed, run it at `after-last`.
+- After each task except the last, once the task is verified, corrected, and committed, run the gate. Do not run it after the last task.
 - Pass `--log <tracking>/evidence/usage-gate.log` on every run. The gate keeps the log, so the orchestrator does not edit it; only a STOP or UNAVAILABLE result goes into the resume record.

@@ -33,26 +33,25 @@ Before the first task, check the working tree, then write and verify your own us
 
 For each task, in order:
 
-1. **Gate before launch.** Run the usage gate at the `before-task` point, with the last-task flag for the last task. On STOP or UNAVAILABLE, follow the stop procedure below.
-2. **Launch one fresh subagent** with the agent type and effort recorded for the task, on the host's current model for its model tier. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
-3. **Wait for its completion notice.** Do not assume the result.
-4. **Verify personally.** Read the diff, cross-check its claims against the code, read the logs, and check every acceptance point. A subagent report is not evidence.
-5. **Correct or stop.** If the result is insufficient, send corrections to the same subagent or fix a small error yourself and say so. If the acceptance cannot be reached, mark the task Blocked, stop, and ask the user.
-6. **Record** the task file, the task table, the evidence, and the resume record.
-7. **Commit the task** when Git is available: one commit per task, following the project's and the user's commit rules. Include tracking files only when the tracking is versioned.
+1. **Launch one fresh subagent** with the agent type and effort recorded for the task, on the host's current model for its model tier. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
+2. **Wait for its completion notice.** Do not assume the result.
+3. **Verify personally.** Read the diff, cross-check its claims against the code, read the logs, and check every acceptance point. A subagent report is not evidence.
+4. **Correct or stop.** If the result is insufficient, send corrections to the same subagent or fix a small error yourself and say so. If the acceptance cannot be reached, mark the task Blocked, stop, and ask the user.
+5. **Record** the task file, the task table, the evidence, and the resume record.
+6. **Commit the task** when Git is available: one commit per task, following the project's and the user's commit rules. Include tracking files only when the tracking is versioned.
+7. **Gate after the task.** Unless this was the last task, run the usage gate. On STOP or UNAVAILABLE, follow the stop procedure below.
 
-After the last task:
+After the last task, without a gate, so that the tracking finishes:
 
-1. **Gate after the last task.** Run the usage gate at the `after-last` point. On STOP or UNAVAILABLE, follow the stop procedure; the final review then starts the next session.
-2. **Final review.** First check each Done task's proof, as in step 1 of the [Close step](tracking-folder.md#lifecycle). Then review the whole change range against the acceptance in `scope.md`: full diff, the relevant full checks, documentation consistency, interactions between tasks, and leftover debugging code.
-3. **Finish the corrections** that the review finds within scope and record them with evidence. Report out-of-scope problems to the user instead of fixing them.
-4. **Final commit** when there are changes.
-5. **Push** only if the user explicitly asked for it; otherwise ask. After a push, record the remote revision as evidence.
-6. **Report** to the user what actually ran and what did not, then propose archiving.
+1. **Final review.** First check each Done task's proof, as in step 1 of the [Close step](tracking-folder.md#lifecycle). Then review the whole change range against the acceptance in `scope.md`: full diff, the relevant full checks, documentation consistency, interactions between tasks, and leftover debugging code.
+2. **Finish the corrections** that the review finds within scope and record them with evidence. Report out-of-scope problems to the user instead of fixing them.
+3. **Final commit** when there are changes.
+4. **Push** only if the user explicitly asked for it; otherwise ask. After a push, record the remote revision as evidence.
+5. **Report** to the user what actually ran and what did not, then propose archiving.
 
 ### Stop procedure
 
-Used when the usage gate returns STOP, or UNAVAILABLE after one retry. The gate runs between tasks, so the finished task is already recorded and committed:
+Used when the usage gate returns STOP, or UNAVAILABLE after one retry. The gate runs after a task is recorded and committed, so no work is lost:
 
 - Do not launch another task.
 - Update the resume record with the gate output (percentages and reset times) and the next step, write the exact prompt that resumes the orchestration in a new chat into `execution.md`, and give it to the user.
