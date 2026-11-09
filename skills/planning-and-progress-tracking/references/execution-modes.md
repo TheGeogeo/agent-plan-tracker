@@ -21,7 +21,7 @@ Every mode follows the [task contract](task-contract.md): start a task only when
 ## Mode 2: one task per chat
 
 - Each task runs in a fresh chat that starts from `TRACKING.md`.
-- Before a chat ends, update the task, the table, and the resume record, then write the handoff prompt for the next chat in `execution.md`: tracking path, task ID, the model tier and effort to select with the host model that matches the tier when the prompt is written, files to read first, permissions such as commits and pushes, and the stop condition (the end of that task).
+- Before a chat ends, update the task, the table, and the resume record, check the next task's setting as [Apply and revise](model-and-effort.md#apply-and-revise) describes, then write the handoff prompt for the next chat in `execution.md`: tracking path, task ID, the model tier and effort to select with the host model that matches the tier when the prompt is written, files to read first, permissions such as commits and pushes, and the stop condition (the end of that task).
 - Give the user that prompt verbatim.
 - Commit at the end of each task when the user chose to.
 
@@ -33,7 +33,7 @@ Before the first task, check the working tree, then write and verify your own us
 
 For each task, in order:
 
-1. **Launch one fresh subagent** with the agent type and effort recorded for the task, on the host's current model for its model tier. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
+1. **Launch one fresh subagent**, after checking its setting as [Apply and revise](model-and-effort.md#apply-and-revise) describes, with the agent type and effort recorded for the task, on the host's current model for its model tier. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
 2. **Wait for its completion notice.** Do not assume the result.
 3. **Verify personally.** Read the diff, cross-check its claims against the code, read the logs, and check every acceptance point. A subagent report is not evidence.
 4. **Correct or stop.** If the result is insufficient, send corrections to the same subagent or fix a small error yourself and say so. If the acceptance cannot be reached, mark the task Blocked, stop, and ask the user.
@@ -54,7 +54,7 @@ After the last task, without a gate, so that the tracking finishes:
 Used when the usage gate returns STOP, or UNAVAILABLE after one retry. The gate runs after a task is recorded and committed, so no work is lost:
 
 - Do not launch another task.
-- Update the resume record with the gate output (percentages and reset times) and the next step, write the exact prompt that resumes the orchestration in a new chat into `execution.md`, and give it to the user.
+- Update the resume record with the gate output (percentages and reset times) and the next step, write the exact prompt that resumes the orchestration in a new chat into `execution.md`, including the orchestrating chat's model tier and effort to select with the matching host model, and give it to the user.
 
 ## Without Git
 

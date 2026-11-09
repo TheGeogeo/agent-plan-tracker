@@ -48,6 +48,7 @@ Use this table in `execution.md`:
 
 ## Apply and revise
 
-- Once the user approves the tracking, the recorded settings are the instruction for launching each subagent: pass the host's current model for the tier and the effort explicitly.
+- Once the user approves the tracking, the recorded settings are the instruction for launching each subagent, revised only as this section allows: pass the host's current model for the tier and the effort explicitly.
 - If the host cannot set a model or effort per subagent, record the setting actually used.
 - When evidence shows that a setting failed, for example repeated wrong results or missed acceptance, report it, record the new setting and its reason in `decisions.md`, and update the table.
+- Before launching a subagent or writing a one-task-per-chat handoff prompt, compare the task's row with what was recorded since the row was written: the task file, earlier tasks' evidence, limits, accepted deviations, and corrections, and new entries in `decisions.md`. If nothing contradicts the row's reason, apply the row and record nothing. If something does, or a task of the same profile needed corrections at the same setting, you may raise the tier, the effort, or both by at most one level each; lower them only with the user's approval, and apply the row until then. Usage alone is never a reason: the usage gate handles it. Record the change and its trigger in `decisions.md`, as a decision when the user approved it and as an agent choice otherwise, then update the table and report it.

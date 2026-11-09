@@ -3,7 +3,7 @@ name: planning-and-progress-tracking
 description: Plan substantial multi-step work in a structured tracking folder and keep task status, dependencies, decisions, model and effort choices, and resumable handoffs accurate. Use for roadmaps, execution plans, trackers, progress updates, and work spanning sessions, chats, or subagents.
 license: MIT
 metadata:
-  version: "1.1.1"
+  version: "1.2.0"
   repository: "https://github.com/TheGeogeo/agent-skills"
 ---
 
