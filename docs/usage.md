@@ -2,7 +2,7 @@
 
 Prompts for each stage of a tracking. Back to the [README](../README.md).
 
-The prompts establish the task's scope. A request for a plan produces the tracking, a proposed execution mode, and its handoff; a request to execute authorizes implementation within the boundaries you give.
+The prompts establish the task's scope. A request for a plan produces the tracking and a proposed execution mode; the agent writes that mode's handoff once you choose it. A request to execute authorizes implementation within the boundaries you give.
 
 ## Create a tracking
 
@@ -50,8 +50,8 @@ Orchestrated subagents:
 ```text
 Orchestrate the import-preview tracking with one subagent per task,
 using the model tiers and effort recorded in execution.md.
-Verify each task yourself and commit it, run the usage gate between tasks,
-then do the final review and the final commit. Push at the end.
+Verify each task yourself and commit it, run the usage gate after each task
+except the last, then do the final review and the final commit. Push at the end.
 ```
 
 Leave out `Push at the end.` if you want the agent to ask before pushing.

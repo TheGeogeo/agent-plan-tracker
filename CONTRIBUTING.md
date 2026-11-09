@@ -22,7 +22,7 @@ A small fast model that skips a rule the skill already states is a model limit, 
 
 ## Stay model- and host-neutral
 
-- Never name a model, a model version, or a model provider in `skills/` or `examples/`. Refer to the three tiers defined in `references/model-and-effort.md`: small fast model, balanced model, most capable model.
+- Never name a model, a model version, or a model provider in `skills/`. Refer to the three tiers defined in `references/model-and-effort.md`: small fast model, balanced model, most capable model.
 - Name hosts and their folders only in `README.md` and `docs/installation.md`, where installation needs them. The skill speaks of "the host" and "the folder where the host keeps its project configuration".
 - Do not hard-code plan limits such as a window length; the usage gate reads them from the host.
 
@@ -38,7 +38,7 @@ A small fast model that skips a rule the skill already states is a model limit, 
 
 Additional dependencies, scripts, integrations, or host-specific features need a concrete benefit that justifies their maintenance cost. Do not ship executable scripts in the skill: describe a needed script as a specification that the agent builds for the current host, as the usage gate does.
 
-Never add personal data to the repository: no credentials, tokens, keys, environment values, account identifiers, user-specific paths, or email addresses, including in examples.
+Never add personal data to the repository: no credentials, tokens, keys, environment values, account identifiers, user-specific paths, or email addresses, including in templates and documentation.
 
 ## Update mirrored text together
 
@@ -46,13 +46,12 @@ Each rule has one owning file. A few summaries mirror it for readers; when the o
 
 | Topic | Owner | Mirrors |
 | --- | --- | --- |
-| Tracking layout | `references/tracking-folder.md` | `assets/templates/README.md`, `examples/tracking/README.md`, `README.md` |
-| How a tracking works | `assets/templates/README.md` | `examples/tracking/README.md` (same text), `docs/how-it-works.md` |
+| Tracking layout | `references/tracking-folder.md` | `assets/templates/README.md`, `README.md` |
+| How a tracking works | `assets/templates/README.md` | `docs/how-it-works.md` |
 | Task states and proof | `references/task-contract.md` | `assets/templates/TRACKING.md`, `docs/how-it-works.md` |
 | Closure | `references/tracking-folder.md`, Close step | `SKILL.md` and `references/execution-modes.md` link to it |
-| Model tiers | `references/model-and-effort.md` | `assets/templates/execution.md`, the example's `execution.md`, `docs/how-it-works.md`, `README.md` |
-| Usage gate | `references/usage-gate.md` | `assets/templates/execution.md`; the summaries in `docs/how-it-works.md` and both tracking READMEs give no thresholds |
-| Templates | `assets/templates/` | `examples/tracking/` |
+| Model tiers | `references/model-and-effort.md` | `assets/templates/execution.md`, `docs/how-it-works.md`, `README.md` |
+| Usage gate | `references/usage-gate.md` | `assets/templates/execution.md`; the summaries in `docs/how-it-works.md` and `assets/templates/README.md` give no thresholds |
 
 Paths under `references/` and `assets/` are inside `skills/planning-and-progress-tracking/`.
 

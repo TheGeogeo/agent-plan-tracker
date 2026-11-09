@@ -46,7 +46,7 @@ tracking/
     evidence/<id>/        Proof cited by the tasks
 ```
 
-Trackings are written in English unless you ask for another language. If your project already uses a central status file, task sheets, or a designated issue tracker, the agent follows that structure instead. The [example tracking](examples/tracking/README.md) shows a complete, unexecuted plan.
+Trackings are written in English unless you ask for another language. If your project already uses a central status file, task sheets, or a designated issue tracker, the agent follows that structure instead. The [templates](skills/planning-and-progress-tracking/assets/templates/) show the starting content of each file.
 
 ## How it works
 
@@ -97,8 +97,6 @@ agent-plan-tracker/
   LICENSE
   CONTRIBUTING.md
   docs/                     Documentation for readers of this repository
-  examples/
-    tracking/               Example tracking folder
   skills/
     planning-and-progress-tracking/
       SKILL.md              Agent entry point
