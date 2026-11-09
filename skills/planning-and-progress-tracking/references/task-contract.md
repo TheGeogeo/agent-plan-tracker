@@ -2,8 +2,6 @@
 
 These fields are the minimum information needed to act, verify, and resume. In a tracking folder, [tracking-folder.md](tracking-folder.md#what-each-file-owns) says which file holds each record. In an existing project convention, map them onto that convention instead.
 
-Write in the tracking's language: English unless the user asked for another one. Quote user requests and decisions verbatim.
-
 ## Task record
 
 One file per task, started from [the task template](../assets/templates/task.md):
@@ -25,7 +23,7 @@ One file per task, started from [the task template](../assets/templates/task.md)
 
 Keep the project's existing state names when they carry the same distinctions. Distinguish the task's state from the overall project's or delivery phase's state.
 
-The task file holds the details and the task's next action. The task table in `TRACKING.md` holds one line per task: ID, result, state, and dependencies. Update the table's state whenever the task's state changes.
+Update the task table's state in `TRACKING.md` whenever the task's state changes.
 
 ## State rules
 
@@ -39,7 +37,7 @@ The task file holds the details and the task's next action. The task table in `T
 
 ## Evidence record
 
-Record enough to assess the claim: revision or input, configuration when relevant, command or scenario, observed result, and artifact or source location. A future command and its expected output belong under verification, not evidence. Store evidence files under `evidence/<id>/` and cite them by relative path; link existing reports rather than copying long logs into the task. Never store credentials, tokens, or personal data in evidence.
+Record enough to assess the claim: revision or input, configuration when relevant, command or scenario, observed result, and artifact or source location. A future command and its expected output belong under verification, not evidence. Store evidence files under `evidence/<id>/` and cite them by relative path; link existing reports rather than copying long logs into the task. Never store credentials, tokens, or personal data in the tracking.
 
 ## Resume record
 
@@ -54,4 +52,4 @@ The resume record opens `TRACKING.md`.
 - Next concrete action:
 ```
 
-Refresh this record before a session stops and whenever its next action becomes obsolete. Track progress by task acceptance and evidence rather than invented percentages, elapsed-time guesses, or code volume.
+Refresh this record whenever the active task, phase, blocker, or next action changes, and before a session stops or hands off. Track progress by task acceptance and evidence rather than invented percentages, elapsed-time guesses, or code volume.

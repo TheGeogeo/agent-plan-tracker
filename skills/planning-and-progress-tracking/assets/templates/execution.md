@@ -6,13 +6,13 @@ Back to [TRACKING.md](TRACKING.md).
 
 - Chosen: <current chat | one task per chat | orchestrated subagents>, by the user on <YYYY-MM-DD>.
 - Reason: <why this mode fits the tracking>.
-- Main or orchestrating chat: <model>, <effort>.
+- Main or orchestrating chat: <model tier>, <effort>.
 
 ## Model and effort per task
 
-| Task | Executor | Model | Effort | Why |
+| Task | Executor | Model tier | Effort | Why |
 | --- | --- | --- | --- | --- |
-| T1 | <subagent type, this chat, or new chat> | <model> | <effort> | <reason> |
+| T1 | <subagent type, this chat, or new chat> | <small fast, balanced, or most capable> | <effort> | <reason> |
 
 ## Commits and push
 
@@ -26,11 +26,11 @@ Back to [TRACKING.md](TRACKING.md).
 
 - Host and provider: <host>, <provider>.
 - Script: `<host configuration folder>/scripts/usage-gate.<extension>`, excluded from version control. Command: `<command>`.
-- Thresholds: short window (<5 hours>) above <80>% before each task except the last; weekly above <90>% before each task and after the last.
+- Thresholds: short window (<duration>) above <80>% before each task except the last; weekly above <90>% before each task and after the last.
 - Source: <source>, checked on <YYYY-MM-DD>.
 - Verification at creation: <results of the checks in the skill's usage-gate reference>.
 - Log: `evidence/usage-gate.log`, written by the gate.
 
 ## Handoff prompt
 
-<The exact prompt for the next chat: tracking path, task ID, model and effort to select, files to read first, permissions, and the stop condition.>
+<The exact prompt for the next chat: tracking path, task ID, model tier and effort to select with the matching host model, files to read first, permissions, and the stop condition.>

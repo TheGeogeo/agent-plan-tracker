@@ -1,12 +1,12 @@
 # Usage gate
 
-Coding-agent subscription plans limit usage over time windows, for example a rolling 5-hour window and a weekly window. In the [orchestrated mode](execution-modes.md#mode-3-orchestrated-subagents), a usage gate keeps the orchestrator from launching work that the remaining usage may not cover, and leaves the finished work committed with a handoff.
+Coding-agent subscription plans limit usage over time windows, for example a short rolling window of a few hours and a weekly window. In the [orchestrated mode](execution-modes.md#mode-3-orchestrated-subagents), a usage gate keeps the orchestrator from launching work that the remaining usage may not cover, and leaves the finished work committed with a handoff.
 
 ## No provided source
 
 This reference is a specification only. It deliberately gives no link, endpoint, file location, or command for reading usage: those depend on the host and its provider, and they change over time.
 
-The model running the orchestration writes its own detection script for its own host and provider, for example Claude Code by Anthropic, Codex by OpenAI, or Grok by xAI. It builds the script from that provider's current documentation and tools when the user chooses the orchestrated mode, verifies it, and only then relies on it. Rewrite the script when the host or its usage source changes. Never reuse a script written for another host.
+The model running the orchestration writes its own detection script for the host and provider it runs on. It builds the script from that provider's current documentation and tools when the user chooses the orchestrated mode, verifies it, and only then relies on it. Rewrite the script when the host or its usage source changes. Never reuse a script written for another host.
 
 ## Rules
 
@@ -19,7 +19,7 @@ These defaults apply unless the user sets other thresholds; record any change in
 | After the last task, before the final review | Weekly usage above 90%: STOP | None |
 
 - The check before a task runs once the previous task is verified and committed, so it also covers the end of that task. One check per boundary is enough.
-- The short window is the host's shortest rolling limit, such as 5 hours. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
+- The short window is the host's shortest rolling limit. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
 - The gate runs only between tasks, so it never interrupts a subagent. On STOP, follow the [stop procedure](execution-modes.md#stop-procedure).
 - If usage cannot be read, retry once after a short wait, or after the delay the source asks for when it reports a rate limit. If it is still unreadable, treat it as STOP and tell the user why.
 - Usage sources can rate-limit frequent calls: call the gate only at its check points, and space the verification calls at creation.
@@ -41,7 +41,7 @@ Before writing the gate:
 
 ## Location
 
-- Write the gate to a `scripts/` folder inside the host's project configuration folder, such as `.claude/scripts/` on Claude Code, and record its path and command in `execution.md`.
+- Write the gate to a `scripts/` folder inside the folder where the host keeps its project configuration, and record its path and command in `execution.md`.
 - Keep it out of version control: add its path to `.git/info/exclude` unless the user asks to version it, so that task commits cannot pick it up.
 - Use a runtime that already exists in the environment, such as the Python standard library, PowerShell, or a POSIX shell with common tools. Install nothing.
 

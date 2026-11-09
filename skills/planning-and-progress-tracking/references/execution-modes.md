@@ -14,14 +14,14 @@ Every mode follows the [task contract](task-contract.md): start a task only when
 
 ## Mode 1: current chat
 
-- Execute the tasks in dependency order in this chat, with the model and effort recorded for it.
+- Execute the tasks in dependency order in this chat, with the model tier and effort recorded for it.
 - Update the task file, the task table, and the resume record at each meaningful checkpoint.
 - Commit only as the user's instructions and the project's rules allow, and record that rule in `execution.md`.
 
 ## Mode 2: one task per chat
 
 - Each task runs in a fresh chat that starts from `TRACKING.md`.
-- Before a chat ends, update the task, the table, and the resume record, then write the handoff prompt for the next chat in `execution.md`: tracking path, task ID, the model and effort to select, files to read first, permissions such as commits and pushes, and the stop condition (the end of that task).
+- Before a chat ends, update the task, the table, and the resume record, then write the handoff prompt for the next chat in `execution.md`: tracking path, task ID, the model tier and effort to select with the host model that matches the tier when the prompt is written, files to read first, permissions such as commits and pushes, and the stop condition (the end of that task).
 - Give the user that prompt verbatim.
 - Commit at the end of each task when the user chose to.
 
@@ -34,7 +34,7 @@ Before the first task, check the working tree, then write and verify your own us
 For each task, in order:
 
 1. **Gate before launch.** Run the usage gate at the `before-task` point, with the last-task flag for the last task. On STOP or UNAVAILABLE, follow the stop procedure below.
-2. **Launch one fresh subagent** with the agent type, model, and effort recorded for the task. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
+2. **Launch one fresh subagent** with the agent type and effort recorded for the task, on the host's current model for its model tier. Its prompt points to the task file only, restates the acceptance, states that the State, Evidence, and Resume fields belong to the orchestrator, and forbids commits, pushes, and edits to the tracking files other than the task's evidence. Write the task file so that it is enough on its own: work, acceptance, verification, and the constraints that apply, citing any other file the subagent must read.
 3. **Wait for its completion notice.** Do not assume the result.
 4. **Verify personally.** Read the diff, cross-check its claims against the code, read the logs, and check every acceptance point. A subagent report is not evidence.
 5. **Correct or stop.** If the result is insufficient, send corrections to the same subagent or fix a small error yourself and say so. If the acceptance cannot be reached, mark the task Blocked, stop, and ask the user.
@@ -44,7 +44,7 @@ For each task, in order:
 After the last task:
 
 1. **Gate after the last task.** Run the usage gate at the `after-last` point. On STOP or UNAVAILABLE, follow the stop procedure; the final review then starts the next session.
-2. **Final review.** First read each Done task's proof ([state rules](task-contract.md#state-rules)). Then review the whole change range against the acceptance in `scope.md`: full diff, the relevant full checks, documentation consistency, interactions between tasks, and leftover debugging code.
+2. **Final review.** First check each Done task's proof, as in step 1 of the [Close step](tracking-folder.md#lifecycle). Then review the whole change range against the acceptance in `scope.md`: full diff, the relevant full checks, documentation consistency, interactions between tasks, and leftover debugging code.
 3. **Finish the corrections** that the review finds within scope and record them with evidence. Report out-of-scope problems to the user instead of fixing them.
 4. **Final commit** when there are changes.
 5. **Push** only if the user explicitly asked for it; otherwise ask. After a push, record the remote revision as evidence.

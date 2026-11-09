@@ -6,8 +6,8 @@ Back to [TRACKING.md](TRACKING.md). One row per decision. Never rewrite a past r
 | --- | --- | --- | --- | --- |
 | D1 | <YYYY-MM-DD> | <question> | "<answer>" | <effect on scope, tasks, or execution> |
 
-## Choices made while planning
+## Agent choices
 
-Choices the agent made without a user decision, reported to the user and reversible:
+Choices the agent made without a user decision, while planning or executing, reported to the user and reversible:
 
 - <choice and reason>

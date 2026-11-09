@@ -18,7 +18,7 @@ tracking/
   <name>/                  One folder per tracking, kebab-case name
     TRACKING.md            Entry point: resume record and task table
     scope.md               Requests, goal, acceptance, scope, exclusions, work limits
-    execution.md           Mode, model and effort per task, commits, usage gate, handoff
+    execution.md           Mode, model tier and effort per task, commits, usage gate, handoff
     decisions.md           User decisions and their consequences
     tasks/
       <ID>-<slug>.md       One record per task
@@ -36,7 +36,7 @@ Create `evidence/` and `tools/` only when they receive content.
 | `tracking/README.md` | How trackings work, the layout, project-specific tracking rules, and one line per active or archived tracking | Any tracking's details |
 | `TRACKING.md` | Resume record and task table | Task details, evidence, rationale |
 | `scope.md` | Verbatim requests with dates, goal, observable acceptance, scope, exclusions, constraints, work limits, unknowns | Task states |
-| `execution.md` | Chosen mode, model and effort per task, commit and push rules, usage gate, handoff prompt | Task results |
+| `execution.md` | Chosen mode, model tier and effort per task, commit and push rules, usage gate, handoff prompt | Task results |
 | `decisions.md` | User decisions verbatim, their consequences, and reversible choices the agent made | Rules that do not come from a decision |
 | `tasks/<ID>-<slug>.md` | The full record of one task, including its next action | Other tasks' details |
 | `evidence/` | Logs, outputs, and the usage-gate log cited by tasks | Conclusions, which go in the task record |
@@ -58,9 +58,20 @@ Create `evidence/` and `tools/` only when they receive content.
 ## Lifecycle
 
 1. **Create.** If `tracking/README.md` is missing, create it from the template, keeping its explanation of how a tracking works and adding only project-specific rules. Create `tracking/<name>/` from the templates and list it under Active.
-2. **Plan.** Fill `scope.md`, the task files, and the task table. Choose a model and effort for each task ([model-and-effort.md](model-and-effort.md)). Propose the execution mode and record the user's choice ([execution-modes.md](execution-modes.md)).
+2. **Plan.** Fill `scope.md`, the task files, and the task table. Choose a model tier and effort for each task ([model-and-effort.md](model-and-effort.md)). Propose the execution mode and record the user's choice ([execution-modes.md](execution-modes.md)).
 3. **Execute.** Follow the chosen mode and the [task contract](task-contract.md). Keep the resume record current.
-4. **Close.** First read each Done task's proof, before running any command: each cited evidence file exists and shows what its Evidence line says, and each confirmation it claims is recorded. Record a task that fails as Awaiting verification ([state rules](task-contract.md#state-rules)); then re-check it if you can, otherwise ask the user. Continue only when every task is Done, or Deferred with a recorded decision. Compare the delivered result with the acceptance in `scope.md` and record remaining limits. Then, before archiving, rewrite every resume field so none describes the state before closure: goal and phase, closed on <YYYY-MM-DD> with the comparison's outcome; active task, none; last verified result, the final comparison with its revision and evidence path; remaining work, one line per item, with its task ID when it has one: each Deferred task, each task file's `Limits`, and each limit the comparison found, or none; changes to preserve, any uncommitted or unpushed work, or none; next action, none.
+4. **Close.** In this order:
+   1. Check the proofs before running any command. For each Done task, open the evidence it cites: it exists, it shows what the Evidence line says, and every confirmation it claims is recorded. Move a task that fails to Awaiting verification, in its file and the task table ([state rules](task-contract.md#state-rules)); then re-check it if you can, otherwise ask the user.
+   2. Continue only when every task is Done, or Deferred with a recorded decision.
+   3. Compare the delivered result with the acceptance in `scope.md`.
+   4. List the remaining work for the resume record only, not for task files: one line per item, each item once, with its task or decision ID when it has one. Take each Deferred task; each task file's `Limits` and `Accepted deviations`; each limit, waiver, or deviation stated in a `decisions.md` consequence, including one with no task; and each limit the comparison found.
+   5. Rewrite every resume field to its closed value, so none describes the state before closure:
+      - Active goal and phase: closed on <YYYY-MM-DD>, with the comparison's outcome.
+      - Active task and state: none.
+      - Last verified result and evidence: the final comparison, with its revision and evidence path.
+      - Remaining work, blocker, or required decision: the list from step 4, or none.
+      - Existing changes and artifacts to preserve: any uncommitted or unpushed work, or none.
+      - Next concrete action: none.
 5. **Archive.** Propose archiving. After the user agrees, move `tracking/<name>/` unchanged to `tracking/archive/<name>/`, move its index entry to Archived with a one-line outcome, and check that its links still resolve.
 
 ## Templates
