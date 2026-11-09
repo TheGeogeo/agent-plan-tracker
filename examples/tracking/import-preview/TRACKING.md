@@ -21,6 +21,6 @@ In execution order. Details are in each task file.
 | --- | --- | --- | --- | --- |
 | 1 | [IMP-01](tasks/IMP-01-preview-contract.md) | Preview contract fits the existing importer | Planned | None |
 | 2 | [IMP-02](tasks/IMP-02-preview-without-apply.md) | Preview produced without applying the import | Planned | IMP-01 |
-| 3 | [IMP-03](tasks/IMP-03-failure-cases.md) | Failure cases verified and work closed | Planned | IMP-02 |
+| 3 | [IMP-03](tasks/IMP-03-failure-cases.md) | Failure cases verified | Planned | IMP-02 |
 
 States: Planned, Active, Awaiting verification, Done, Blocked, Deferred.

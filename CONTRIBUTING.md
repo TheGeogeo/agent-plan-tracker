@@ -10,6 +10,22 @@ Keep the skill portable across projects and coding agents. Put a workflow rule i
 
 Use English for repository content, comments, issues, and pull requests.
 
+## When to change the skill
+
+The skill is stable. Change its text only for one of these reasons:
+
+- A failure reproduced in at least 2 of 3 fresh runs, with the model tier that the skill recommends for that kind of work.
+- A host change that breaks installation or the skill format.
+- A maintainer decision about the workflow itself.
+
+A small fast model that skips a rule the skill already states is a model limit, not a gap in the text: record it with the test results and do not add wording for it. Prefer restructuring an existing rule, for example into numbered steps, over adding sentences.
+
+## Stay model- and host-neutral
+
+- Never name a model, a model version, or a model provider in `skills/` or `examples/`. Refer to the three tiers defined in `references/model-and-effort.md`: small fast model, balanced model, most capable model.
+- Name hosts and their folders only in `README.md` and `docs/installation.md`, where installation needs them. The skill speaks of "the host" and "the folder where the host keeps its project configuration".
+- Do not hard-code plan limits such as a window length; the usage gate reads them from the host.
+
 ## Preserve the workflow's boundaries
 
 - Reuse existing project plans and trackers rather than forcing a parallel structure.
@@ -24,13 +40,33 @@ Additional dependencies, scripts, integrations, or host-specific features need a
 
 Never add personal data to the repository: no credentials, tokens, keys, environment values, account identifiers, user-specific paths, or email addresses, including in examples.
 
+## Update mirrored text together
+
+Each rule has one owning file. A few summaries mirror it for readers; when the owner changes, update its mirrors in the same change:
+
+| Topic | Owner | Mirrors |
+| --- | --- | --- |
+| Tracking layout | `references/tracking-folder.md` | `assets/templates/README.md`, `examples/tracking/README.md`, `README.md` |
+| How a tracking works | `assets/templates/README.md` | `examples/tracking/README.md` (same text), `docs/how-it-works.md` |
+| Task states and proof | `references/task-contract.md` | `assets/templates/TRACKING.md`, `docs/how-it-works.md` |
+| Closure | `references/tracking-folder.md`, Close step | `SKILL.md` and `references/execution-modes.md` link to it |
+| Model tiers | `references/model-and-effort.md` | `assets/templates/execution.md`, the example's `execution.md`, `docs/how-it-works.md`, `README.md` |
+| Usage gate | `references/usage-gate.md` | `assets/templates/execution.md`; the summaries in `docs/how-it-works.md` and both tracking READMEs give no thresholds |
+| Templates | `assets/templates/` | `examples/tracking/` |
+
+Paths under `references/` and `assets/` are inside `skills/planning-and-progress-tracking/`.
+
 ## Validate your change
 
-Review the whole affected workflow, not only the changed sentence. Confirm that the skill metadata still describes the intended triggers and that referenced files remain inside the installable skill directory.
+Review the whole affected workflow, not only the changed sentence. Confirm that the skill metadata still describes the intended triggers, that referenced files remain inside the installable skill directory, and that the `version` in the frontmatter is raised for any change to the skill.
 
-Check Markdown links and heading anchors, keep the templates and the example tracking consistent with the task contract, and review the diff for unrelated changes, personal data, or private project information.
+Check Markdown links and heading anchors, check the mirrors above, and review the diff for unrelated changes, personal data, private project information, or model and host names outside the allowed files.
 
-For behavior changes, describe a representative scenario and the evidence you actually collected. Useful cases include improving a loose tracker, resuming after interruption, handling a failed check, preserving an existing plan, completing a task with an explicitly accepted limitation, handing off between chats, and an orchestration stopped by the usage gate.
+For behavior changes, run each affected scenario in a fresh agent on a disposable project, with a prompt that does not hint at the expected behavior:
+
+- Judgment scenarios (closing a tracking, a Done task with invalid proof, resuming, a failed check, a blocker, an accepted limitation) run on a balanced model.
+- Mechanical scenarios (creating a tracking, its language, verbatim quotes, keeping secrets out) run on a small fast model.
+- Run each scenario once. After a failure, run it twice more; it passes at 2 of 3.
 
 Distinguish manual review, static checks, and actual agent-run evaluation. Report unperformed checks honestly.
 

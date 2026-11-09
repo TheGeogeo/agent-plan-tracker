@@ -7,17 +7,17 @@ Back to [TRACKING.md](TRACKING.md).
 - Proposed: orchestrated subagents, awaiting the user's choice.
 - Reason: three dependent, well-specified tasks with independent verification; a fresh subagent per task keeps each context small, and the orchestrator checks every result before committing it.
 - Alternatives offered: all tasks in the current chat, or one task per chat with a handoff prompt between tasks.
-- Orchestrating chat: most capable tier, high effort, for verification and the final review.
+- Orchestrating chat: most capable model, high effort, for verification and the final review.
 
 ## Model and effort per task
 
-Example host: Claude Code. Map the tiers onto the models that the host offers.
+Each tier maps onto the host's current model when the task starts.
 
-| Task | Executor | Model | Effort | Why |
+| Task | Executor | Model tier | Effort | Why |
 | --- | --- | --- | --- | --- |
-| IMP-01 | Read-only exploration subagent | Balanced tier | Medium | Reading and tracing callers; no edits, moderate breadth |
-| IMP-02 | General-purpose subagent | Balanced tier | High | Implementation on a clear contract, but a wrong result could change stored data |
-| IMP-03 | General-purpose subagent | Balanced tier | Medium | Runs existing checks and failure scenarios defined by IMP-01 |
+| IMP-01 | Read-only exploration subagent | Balanced | Medium | Reading and tracing callers; no edits, moderate breadth |
+| IMP-02 | General-purpose subagent | Balanced | High | Implementation on a clear contract, but a wrong result could change stored data |
+| IMP-03 | General-purpose subagent | Balanced | Medium | Runs existing checks and failure scenarios defined by IMP-01 |
 
 ## Commits and push
 
@@ -27,12 +27,7 @@ Example host: Claude Code. Map the tiers onto the models that the host offers.
 
 ## Usage gate
 
-- Host and provider: Claude Code, Anthropic.
-- Script: written by the orchestrating model into `.claude/scripts/` and verified once the user confirms the orchestrated mode, as described in the skill's usage-gate reference.
-- Thresholds: short window (5 hours) above 80% before each task except the last; weekly above 90% before each task and after the last.
-- Source: to check when the gate is written.
-- Verification at creation: not run.
-- Log: `evidence/usage-gate.log`, written by the gate.
+Written only if the user chooses the orchestrated mode, as described in the skill's usage-gate reference, with the default thresholds unless the user sets others.
 
 ## Handoff prompt
 

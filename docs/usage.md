@@ -13,7 +13,7 @@ Create ordered tasks with acceptance criteria and verification methods.
 Keep this request limited to planning.
 ```
 
-The agent creates `tracking/import-preview/` from the skill's templates, chooses a model and effort for each task, and proposes an execution mode for you to choose.
+The agent creates `tracking/import-preview/` from the skill's templates, chooses a model tier and effort for each task, and proposes an execution mode for you to choose.
 
 Trackings are written in English by default. To use another language, say so: `Write the tracking in French.`
 
@@ -49,7 +49,7 @@ Orchestrated subagents:
 
 ```text
 Orchestrate the import-preview tracking with one subagent per task,
-using the models and effort recorded in execution.md.
+using the model tiers and effort recorded in execution.md.
 Verify each task yourself and commit it, run the usage gate between tasks,
 then do the final review and the final commit. Push at the end.
 ```

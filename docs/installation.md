@@ -18,6 +18,7 @@ Review [SKILL.md](../skills/planning-and-progress-tracking/SKILL.md), its `refer
 | Claude Code | One repository | `<your-project>/.claude/skills/planning-and-progress-tracking/` |
 | Codex | All your local projects | `~/.agents/skills/planning-and-progress-tracking/` |
 | Codex | One repository | `<your-project>/.agents/skills/planning-and-progress-tracking/` |
+| Another agent that supports Agent Skills | User or repository | The skills folder documented by that agent |
 
 Here, `~` means your user home directory. On Windows, use the equivalent directory under your user profile. The destination should contain `SKILL.md` directly, with `references/` and `assets/` beside it.
 
@@ -30,9 +31,9 @@ cp -R agent-plan-tracker/skills/planning-and-progress-tracking ~/.claude/skills/
 
 For a personal Codex installation, use `~/.agents/skills/` as the destination instead.
 
-If the skill is already installed, review the existing version before replacing it, and replace the whole directory so that removed files do not linger. Avoid installing multiple copies with the same name into overlapping scopes.
+If the skill is already installed, compare the `version` in its `SKILL.md` frontmatter with this repository's, review the existing version before replacing it, and replace the whole directory so that removed files do not linger. If you use several agents, update every installed copy. Avoid installing multiple copies with the same name into overlapping scopes.
 
-See the official [Claude Code skill documentation](https://code.claude.com/docs/en/skills) and [OpenAI skill documentation](https://developers.openai.com/codex/skills) for discovery behavior and host-specific restrictions. These local directories apply to local agent sessions; account-hosted and cloud environments can use different distribution mechanisms.
+See the official [Claude Code skill documentation](https://code.claude.com/docs/en/skills) and [Codex skill documentation](https://learn.chatgpt.com/docs/build-skills) for discovery behavior and host-specific restrictions. These local directories apply to local agent sessions; account-hosted and cloud environments can use different distribution mechanisms.
 
 ## 3. Load the skill
 

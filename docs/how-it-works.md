@@ -6,7 +6,7 @@ An overview for readers of this repository. The exact rules the agent follows ar
 
 1. **Find the current state.** Read the existing plan, the active task, recent evidence, relevant project instructions, and the latest explicit decisions.
 2. **Define the outcome.** Establish observable acceptance, scope, exclusions, and the architecture constraints that matter to the change.
-3. **Build the task graph.** Give tasks stable IDs and clear results, order them by actual dependencies, and choose a model and effort for each.
+3. **Build the task graph.** Give tasks stable IDs and clear results, order them by actual dependencies, and choose a model tier and effort for each.
 4. **Choose the execution mode.** Propose the modes, record your choice, and prepare its handoff.
 5. **Work and verify.** Execute authorized work, collect the relevant proof, and update the affected task at meaningful checkpoints.
 6. **Keep the resume point current.** Record the active task, the missing condition or remaining work, and a concrete next action before handing off.
@@ -28,7 +28,7 @@ Rules: [tracking-folder.md](../skills/planning-and-progress-tracking/references/
 | --- | --- |
 | Current chat | The agent executes the tasks in order in the same chat. |
 | One task per chat | Each task runs in a fresh chat; the agent writes the handoff prompt for the next one. |
-| Orchestrated subagents | The chat launches one fresh subagent per task with the recorded model and effort, verifies the result itself, and commits each verified task when Git is available. After the last task, it reviews the whole change, finishes the corrections, and makes the final commit. |
+| Orchestrated subagents | The chat launches one fresh subagent per task with the recorded model tier and effort, verifies the result itself, and commits each verified task when Git is available. After the last task, it reviews the whole change, finishes the corrections, and makes the final commit. |
 
 Pushing happens only on your explicit request; otherwise the agent asks.
 
@@ -36,20 +36,15 @@ Rules: [execution-modes.md](../skills/planning-and-progress-tracking/references/
 
 ## Model and effort
 
-While planning, the agent analyzes each task for the least costly model and effort that can reliably meet its acceptance, weighing reasoning depth, the cost of a wrong result, the breadth of context, the verification load, and how mechanical the work is. The choice and its reason are recorded in `execution.md` and passed to each subagent.
+While planning, the agent analyzes each task for the least costly model tier and effort that can reliably meet its acceptance, weighing reasoning depth, the cost of a wrong result, the breadth of context, the verification load, and how mechanical the work is. The tiers are the small fast model, the balanced model, and the most capable model; the tracking records the tier, and the agent maps it onto the host's current model when the task starts, so the tracking stays valid when new models are released. The choice and its reason are recorded in `execution.md` and passed to each subagent.
 
 Rules: [model-and-effort.md](../skills/planning-and-progress-tracking/references/model-and-effort.md).
 
 ## Usage gate
 
-In the orchestrated mode, a usage gate checks the plan's short-window usage (5 hours on Claude Code) and weekly usage once between tasks, never while a subagent runs:
+In the orchestrated mode, a usage gate checks the plan's short-window and weekly usage once between tasks, never while a subagent runs. When usage passes a threshold, the orchestration stops before the next task. The default thresholds and their exceptions are in the [rules of usage-gate.md](../skills/planning-and-progress-tracking/references/usage-gate.md#rules), and each tracking records its own in `execution.md`. When the gate stops, the finished task is already verified and committed, and the agent writes a handoff prompt that resumes the orchestration in a new chat. The gate keeps its own log in the tracking's `evidence/`.
 
-- Before launching a task: above the short-window threshold, the task does not start, unless it is the last task.
-- Before launching a task, and after the last one: above the weekly threshold, the orchestration stops.
-
-The default thresholds are in the [rules of usage-gate.md](../skills/planning-and-progress-tracking/references/usage-gate.md#rules), and each tracking records its own in `execution.md`. When the gate stops, the finished task is already verified and committed, and the agent writes a handoff prompt that resumes the orchestration in a new chat. The gate keeps its own log in the tracking's `evidence/`.
-
-The skill ships no script and gives no link or source for reading usage. When you choose this mode, the model writes its own detection script for its host and provider, such as Claude Code by Anthropic, Codex by OpenAI, or Grok by xAI, from that provider's current documentation. It places the script in the project's host configuration folder (`.claude/` on Claude Code) and verifies it before use. If the source needs credentials, the gate reads them at run time from where the host stores them and sends them only to the provider's own service; it contains no credentials, environment values, or personal paths, and it stays out of version control. If the host's usage cannot be read, the agent agrees on pacing with you instead.
+The skill ships no script and gives no link or source for reading usage. When you choose this mode, the model writes its own detection script for the host and provider it runs on, from that provider's current documentation. It places the script in the folder where the host keeps its project configuration and verifies it before use. If the source needs credentials, the gate reads them at run time from where the host stores them and sends them only to the provider's own service; it contains no credentials, environment values, or personal paths, and it stays out of version control. If the host's usage cannot be read, the agent agrees on pacing with you instead.
 
 Rules: [usage-gate.md](../skills/planning-and-progress-tracking/references/usage-gate.md).
 

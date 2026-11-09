@@ -1,4 +1,4 @@
-# IMP-03 — Failure cases verified and work closed
+# IMP-03 — Failure cases verified
 
 Back to [TRACKING.md](../TRACKING.md).
 
