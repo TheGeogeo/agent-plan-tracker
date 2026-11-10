@@ -19,6 +19,7 @@ The gate runs once after each task, when the orchestrator has verified the task,
 | Short window | 80% or more | STOP | No check |
 | Weekly | 90% or more | STOP | No check |
 
+- A threshold is inclusive: usage equal to it stops. A gate that fails safe stops on the number itself, so when the user words a threshold as "above", "over", or "more than" N%, quote the wording in `decisions.md` and record and apply the threshold as "N% or more". Never compare with a strict "greater than".
 - After the last task, the gate does not run: the final review, its corrections, the final commit, and an authorized push proceed so that the tracking finishes.
 - The short window is the host's shortest rolling limit. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
 - The gate runs only between tasks, so it never interrupts a subagent. On STOP, follow the [stop procedure](execution-modes.md#stop-procedure), which ends the session with a handoff instead of waiting for the reset.
@@ -60,8 +61,9 @@ Space the calls that read usage. Record the results in `execution.md`, without a
 1. With the default thresholds, the gate reads both percentages and both reset times. When the user can check, they match what the host's own usage display shows.
 2. `--short-stop 0 --weekly-stop 0` returns STOP with both reasons and exit code 10.
 3. `--short-stop 101 --weekly-stop 0` returns STOP with the weekly reason only, and `--short-stop 0 --weekly-stop 101` with the short-window reason only.
-4. With credentials or the source unavailable, for example the host's configuration directory pointed at an empty temporary directory, the gate returns UNAVAILABLE with exit code 2, and its output contains no secret.
-5. The gate file contains no secret, user path, or other personal data.
+4. A threshold equal to a reading stops: `--short-stop <short percent just read> --weekly-stop 101` returns STOP with the short-window reason only, and `--short-stop 101 --weekly-stop <weekly percent just read>` with the weekly reason only. Unless a window resets between the calls, a CONTINUE here means the gate compares with "greater than" and must be fixed.
+5. With credentials or the source unavailable, for example the host's configuration directory pointed at an empty temporary directory, the gate returns UNAVAILABLE with exit code 2, and its output contains no secret.
+6. The gate file contains no secret, user path, or other personal data.
 
 ## Use during orchestration
 
