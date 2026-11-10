@@ -90,6 +90,6 @@ The agent itself reads [SKILL.md](../../skills/planning-and-progress-tracking/SK
 
 ## Design and scope
 
-The skill is a Markdown workflow with no runtime dependencies and no shipped scripts. It discovers the project's actual tooling and conventions, so it works across languages and project types. The one script it uses, the usage gate, is written by the agent itself for its own host and provider when you choose the orchestrated mode; the skill provides no link or source for it, and the script never contains credentials or personal data.
+The skill is a Markdown workflow with no runtime dependencies and no shipped scripts. It discovers the project's actual tooling and conventions, so it works across languages and project types. The one script it uses, the usage gate, is written by the agent itself for its own host and provider when you choose the orchestrated mode, or provided by you and checked by the agent; the skill provides no link or source for it, and the script never contains credentials or personal data.
 
 The workflow emphasizes a single source of truth, proportional planning, evidence-backed state changes, preserved history, and useful handoffs. The agent remains responsible for following your permissions and delivery rules: the skill guides behavior, it does not enforce it at run time.

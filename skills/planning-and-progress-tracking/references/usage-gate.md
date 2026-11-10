@@ -8,6 +8,8 @@ This reference is a specification only. It deliberately gives no link, endpoint,
 
 The model running the orchestration writes its own detection script for the host and provider it runs on. It builds the script from that provider's current documentation and tools when the user chooses the orchestrated mode, verifies it, and only then relies on it. Rewrite the script when the host or its usage source changes. Never reuse a script written for another host.
 
+If the user provides a script instead, use it only after it passes the checks of [Verify at creation](#verify-at-creation), and record its path, its command, and each difference from the [Interface](#interface) in `execution.md`. A script that lets usage equal to a threshold continue is never acceptable as it is: point it out and have it fixed, with the user's agreement, before the first task.
+
 ## Rules
 
 These defaults apply unless the user sets other thresholds; record any change in `decisions.md`.
@@ -19,7 +21,7 @@ The gate runs once after each task, when the orchestrator has verified the task,
 | Short window | 80% or more | STOP | No check |
 | Weekly | 90% or more | STOP | No check |
 
-- A threshold is inclusive: usage equal to it stops. A gate that fails safe stops on the number itself, so when the user words a threshold as "above", "over", or "more than" N%, quote the wording in `decisions.md` and record and apply the threshold as "N% or more". Never compare with a strict "greater than". This also holds for a script the user provides: a strict comparison in it is not an acceptable deviation, so point it out and have it fixed, with the user's agreement, before the first task.
+- A threshold is inclusive: usage equal to it stops. A gate that fails safe stops on the number itself, so when the user words a threshold as "above", "over", or "more than" N%, quote the wording in `decisions.md` and record and apply the threshold as "N% or more". Never compare with a strict "greater than".
 - After the last task, the gate does not run: the final review, its corrections, the final commit, and an authorized push proceed so that the tracking finishes.
 - The short window is the host's shortest rolling limit. Weekly usage is the highest of the weekly limits that the source reports, across all models and model-specific limits. If the host's windows differ, record in `execution.md` how they map onto these rules.
 - The gate runs only between tasks, so it never interrupts a subagent. On STOP, follow the [stop procedure](execution-modes.md#stop-procedure), which ends the session with a handoff instead of waiting for the reset.
@@ -56,7 +58,7 @@ Before writing the gate:
 
 ## Verify at creation
 
-Space the calls that read usage. Run these checks on a script the user provides as well. Record the results in `execution.md`, without any secret:
+Space the calls that read usage. Record the results in `execution.md`, without any secret:
 
 1. With the default thresholds, the gate reads both percentages and both reset times. When the user can check, they match what the host's own usage display shows.
 2. `--short-stop 0 --weekly-stop 0` returns STOP with both reasons and exit code 10.

@@ -25,7 +25,8 @@ Back to [TRACKING.md](TRACKING.md).
 <!-- Orchestrated mode only. Otherwise, or when the host's usage cannot be read, replace this section with: "Not used: <reason>." -->
 
 - Host and provider: <host>, <provider>.
-- Script: `<host configuration folder>/scripts/usage-gate.<extension>`, excluded from version control. Command: `<command>`.
+- Script: `<host configuration folder>/scripts/usage-gate.<extension>`, or the path of the script the user provided; excluded from version control. Command: `<command>`.
+- Differences from the skill's interface: <none | each difference, for a script the user provided>.
 - Thresholds: short window (<duration>) at <80>% or more, weekly at <90>% or more, checked after each task except the last.
 - Source: <source>, checked on <YYYY-MM-DD>.
 - Verification at creation: <results of the checks in the skill's usage-gate reference>.
